@@ -1,6 +1,6 @@
 # VGO
 Web app to organize the games library, it works with PHP and MYSQL
 
-It is necessary to install XAMPP on a server, activating apache (php) and mysql
+It's necessary a server witch php and mysql
 
-In php myadmin you must import the BBDD.sql file
+The BBDD.sql file contains the WebAPP database, some tables have data, but the tables relative to users (usuario, usuarioplataforma, usuariojuegoplataforma, partida, tiempojuego, top, topelemento, toprequisito) are empty
