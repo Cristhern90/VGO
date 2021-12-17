@@ -6,7 +6,7 @@ class ajax {
     public $op;
     public $session;
     public $url = "/VGO2/";
-    private $CURLOPT_HTTPHEADER = array('Client-ID: i82aa86d0xx2uo8irelilhssfi73ad', 'Authorization: Bearer 0lgvfue6pjusj2pbvr0gsp8ka4khrw', 'Content-Type: text/plain', 'Cookie: __cfduid=d8385b2b7ae3b490bb502db7704a740f31614516353');
+    private $CURLOPT_HTTPHEADER = array('Client-ID: [client id]', 'Authorization: Bearer [auto]', 'Content-Type: text/plain', 'Cookie: [cookie]');
 
     public function __construct($op, $session) {
         $this->op = $op;
