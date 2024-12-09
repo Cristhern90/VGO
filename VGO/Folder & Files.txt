@@ -1,0 +1,14 @@
+root/
+root/config/
+root/config/VGO.php
+root/config/Ajax.php ()
+root/config/API.php ()
+root/config/dades
+root/config/dades/BBDD.json
+root/config/dades/API.json
+root/front/
+root/front/general
+root/front/general/games
+root/front/general/platforms
+root/front/general/others
+root/front/personal/
