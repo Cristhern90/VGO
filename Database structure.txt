@@ -1,0 +1,23 @@
+N1:
+IGDB_id, type, title, collections, franchice, genres, platforms, media, cover, release dates, developers, publishers, themes, times to beat, age ratings, related games, perspective, is spin-off, engine, links, adquire date, adquire platform, cost, store, status, IGDB_url, time of play
+
+N2:
+Game: IGDB_id, type_id, title, collection_ids, franchice_ids, genre_ids, platform_ids, cover, developer_ids, publisher_ids, theme_ids, time_beat_ids, related_game_ids, perspective_id, idSpinOff, engine_id, IGDB_url
+Platform: IGDB_id, name
+Genre: IGDB_id, name
+Franchice: IGDB_id, name
+Collection: IGDB_id, name
+Theme: IGDB_id, name
+AgeRating: IGDB_id, IGDB_game_id, name, rating, icon
+Perspective: IGDB_id, name
+Engine: IGDB_id, name
+Media: IGDB_id, IGDB_game_id, type, url
+GameType: IGDB_id, name
+Developer: IGDB_id, name
+Publisher: IGDB_id, name
+Timesbeat: IGDB_id, IGDB_game_id, type, time
+Link: IGDB_id, IGDB_game_id, web, icon, url
+Store: id (Auto), name, logo, IGDBPlatform_ids, isSuscription
+User: id (Auto), username, password, name, email, darkmode
+UserPlatform: id (Auto), IGDB_platform_id, IGDB_fisic_platform_id, emulator, retrocompatible, User_id
+UserGame: id (Auto), IGDBGame_id, adquireDate, cost, IGDBPlatform_id, UserPlatform_id, User_id, Store_id
