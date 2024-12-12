@@ -56,9 +56,9 @@ AgeRatingGame: +IGDBAgeRating_id, +IGDBGame_id
 Store: +id (Auto), name, logo, isSuscription
 StorePlatform: +Store_id, +IGDBPlatform_id
 
-User: +id (Auto), username, password, name, email, darkmode
-UserPlatform: +id (Auto), IGDB_platform_id, IGDB_fisic_platform_id, emulator, retrocompatible, User_id
-UserGame: +id (Auto), IGDBGame_id, adquireDate, cost, IGDBPlatform_id, UserPlatform_id, User_id, Store_id
-Status: +id (Auto), name, icon, txtColor, bgColor
+User: +id (Auto), username, password, name, email, darkmode, create_time
+UserPlatform: +IGDB_platform_id, +IGDB_fisic_platform_id, emulator, retrocompatible, User_id
+UserGame: +id (Auto), IGDBPlatformGame_id, UserPlatform_id, Store_id, adquireDate, cost, allAchivements
+Status: +id (Auto), name, icon, txtColor, bgColor, isFinish
 Playing: +id (Auto), UserGame_id, Status_id, DateStart, DateEnd, Deaths
 TimePlayed: +id (Auto), Playing_id, DateStart, DateEnd
