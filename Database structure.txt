@@ -24,7 +24,7 @@ UserPlatform: +id (Auto), IGDB_platform_id, IGDB_fisic_platform_id, emulator, re
 UserGame: +id (Auto), IGDBGame_id, adquireDate, cost, IGDBPlatform_id, UserPlatform_id, User_id, Store_id
 
 N3
-Game: +IGDB_id, type_id, title, cover, time_beat_ids, isSpinOff, engine_id, IGDB_url
+Game: +IGDB_id, type_id, title, cover, isSpinOff, engine_id, IGDB_url
 
 Platform: +IGDB_id, name
 Genre: +IGDB_id, name
@@ -39,13 +39,13 @@ Developer: +IGDB_id, name
 Publisher: +IGDB_id, name
 
 Timesbeat: +IGDB_id, IGDBGame_id, type, time
-Link: +IGDB_id, IGDBGame_id, web, icon, url
+Link: +IGDB_id, IGDBGame_id, name, icon, url
 Media: +IGDB_id, IGDBGame_id, type, url
 
 CollectionGame: +IGDBGame_id, +IGDBCollection_id
 FranchiceGame: +IGDBGame_id, +IGDBFranchice_id
 GenreGame: +IGDBGame_id, +IGDBGenre_id
-PlatformGame: +IGDBGame_id, +IGDBPlatform_id
+PlatformGame: +IGDBGame_id, +IGDBPlatform_id, releasedDate
 DeveloperGame: +IGDBGame_id, +IGDBDeveloper_id
 PublisherGame: +IGDBGame_id, +IGDBPublisher_id
 ThemeGame: +IGDBGame_id, +IGDBTheme_id
