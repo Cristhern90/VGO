@@ -25,6 +25,7 @@ UserGame: +id (Auto), IGDBGame_id, adquireDate, cost, IGDBPlatform_id, UserPlatf
 
 N3
 Game: +IGDB_id, type_id, title, cover, time_beat_ids, isSpinOff, engine_id, IGDB_url
+
 Platform: +IGDB_id, name
 Genre: +IGDB_id, name
 Franchice: +IGDB_id, name
@@ -33,12 +34,13 @@ Theme: +IGDB_id, name
 AgeRating: +IGDB_id, name, rating, icon
 Perspective: +IGDB_id, name
 Engine: +IGDB_id, name
-Media: +IGDB_id, IGDBGame_id, type, url
 GameType: +IGDB_id, name
 Developer: +IGDB_id, name
 Publisher: +IGDB_id, name
+
 Timesbeat: +IGDB_id, IGDBGame_id, type, time
 Link: +IGDB_id, IGDBGame_id, web, icon, url
+Media: +IGDB_id, IGDBGame_id, type, url
 
 CollectionGame: +IGDBGame_id, +IGDBCollection_id
 FranchiceGame: +IGDBGame_id, +IGDBFranchice_id
