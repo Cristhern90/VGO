@@ -30,7 +30,7 @@ Genre: +IGDB_id, name
 Franchice: +IGDB_id, name
 Collection: +IGDB_id, name
 Theme: +IGDB_id, name
-AgeRating: +IGDB_id, IGDB_game_id, name, rating, icon
+AgeRating: +IGDB_id, name, rating, icon
 Perspective: +IGDB_id, name
 Engine: +IGDB_id, name
 Media: +IGDB_id, IGDBGame_id, type, url
@@ -49,6 +49,7 @@ PublisherGame: +IGDBGame_id, +IGDBPublisher_id
 ThemeGame: +IGDBGame_id, +IGDBTheme_id
 PerspectiveGame: +IGDBGame_id, +IGDBPerspective_id
 RelatedGame: +IGDBGamePrincipal_id, +IGDBGameRelated_id
+AgeRatingGame: +IGDBAgeRating_id, +IGDBGame_id
 
 Store: +id (Auto), name, logo, isSuscription
 StorePlatform: +Store_id, +IGDBPlatform_id
