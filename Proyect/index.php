@@ -1,10 +1,9 @@
 <?php
 session_start();
 $user_id = 0;
-$page = "login";
+$page = "home";
 if (isset($_COOKIE["user_id"])) {
     $user_id = $_COOKIE["user_id"]; // get user id
-    $page = "home";
     if (iseet($_GET["page"])) {
         $page = $_GET["page"]; // get page
     }
@@ -17,6 +16,7 @@ if (isset($_COOKIE["user_id"])) {
     <body>
         <?php
         include './includes/header.php';
+        echo '<hr>'.$page;
         include './front/' . $page . '/index.php';
         include './includes/footer.php';
         ?>
