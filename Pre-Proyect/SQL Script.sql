@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema VGO
+-- Schema VGORD
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema VGO
+-- Schema VGORD
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `VGO` DEFAULT CHARACTER SET utf8 ;
-USE `VGO` ;
+CREATE SCHEMA IF NOT EXISTS `VGORD` DEFAULT CHARACTER SET utf8 ;
+USE `VGORD` ;
 
 -- -----------------------------------------------------
--- Table `VGO`.`Platform`
+-- Table `VGORD`.`Platform`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Platform` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Platform` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -28,9 +28,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Genre`
+-- Table `VGORD`.`Genre`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Genre` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Genre` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -38,9 +38,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Franchice`
+-- Table `VGORD`.`Franchice`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Franchice` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Franchice` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -48,9 +48,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Collection`
+-- Table `VGORD`.`Collection`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Collection` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Collection` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -58,9 +58,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Theme`
+-- Table `VGORD`.`Theme`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Theme` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Theme` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -68,9 +68,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`AgeRating`
+-- Table `VGORD`.`AgeRating`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`AgeRating` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`AgeRating` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -78,9 +78,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Perspective`
+-- Table `VGORD`.`Perspective`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Perspective` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Perspective` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -88,9 +88,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Engine`
+-- Table `VGORD`.`Engine`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Engine` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Engine` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -98,9 +98,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`GameType`
+-- Table `VGORD`.`GameType`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`GameType` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`GameType` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -108,9 +108,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Developer`
+-- Table `VGORD`.`Developer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Developer` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Developer` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -118,9 +118,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Publisher`
+-- Table `VGORD`.`Publisher`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Publisher` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Publisher` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`IGDB_id`))
@@ -128,9 +128,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Game`
+-- Table `VGORD`.`Game`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Game` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Game` (
   `IGDB_id` INT NOT NULL,
   `title` VARCHAR(50) NOT NULL,
   `cover` VARCHAR(50) NOT NULL,
@@ -139,248 +139,248 @@ CREATE TABLE IF NOT EXISTS `VGO`.`Game` (
   `Engine_IGDB_id` INT NULL,
   `GameType_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`IGDB_id`),
-  INDEX `fk_Game_Engine1_idx` (`Engine_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_GameType1_idx` (`GameType_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_Engine1_idx` (`Engine_IGDB_id` ASC),
+  INDEX `fk_Game_GameType1_idx` (`GameType_IGDB_id` ASC),
   CONSTRAINT `fk_Game_Engine1`
     FOREIGN KEY (`Engine_IGDB_id`)
-    REFERENCES `VGO`.`Engine` (`IGDB_id`)
+    REFERENCES `VGORD`.`Engine` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_GameType1`
     FOREIGN KEY (`GameType_IGDB_id`)
-    REFERENCES `VGO`.`GameType` (`IGDB_id`)
+    REFERENCES `VGORD`.`GameType` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`PlatformGame`
+-- Table `VGORD`.`PlatformGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`PlatformGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`PlatformGame` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Platform_IGDB_id` INT NOT NULL,
   `Game_IGDB_id` INT NOT NULL,
   `releasedDate` DATE NOT NULL,
   `zone` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Platform_has_Game_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Platform_has_Game_Platform1_idx` (`Platform_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Platform_has_Game_Game1_idx` (`Game_IGDB_id` ASC),
+  INDEX `fk_Platform_has_Game_Platform1_idx` (`Platform_IGDB_id` ASC),
   CONSTRAINT `fk_Platform_has_Game_Platform1`
     FOREIGN KEY (`Platform_IGDB_id`)
-    REFERENCES `VGO`.`Platform` (`IGDB_id`)
+    REFERENCES `VGORD`.`Platform` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Platform_has_Game_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`GenreGame`
+-- Table `VGORD`.`GenreGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`GenreGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`GenreGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Genre_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Genre_IGDB_id`),
-  INDEX `fk_Game_has_Genre_Genre1_idx` (`Genre_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Genre_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Genre_Genre1_idx` (`Genre_IGDB_id` ASC),
+  INDEX `fk_Game_has_Genre_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Genre_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Genre_Genre1`
     FOREIGN KEY (`Genre_IGDB_id`)
-    REFERENCES `VGO`.`Genre` (`IGDB_id`)
+    REFERENCES `VGORD`.`Genre` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`FranchiceGame`
+-- Table `VGORD`.`FranchiceGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`FranchiceGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`FranchiceGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Franchice_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Franchice_IGDB_id`),
-  INDEX `fk_Game_has_Franchice_Franchice1_idx` (`Franchice_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Franchice_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Franchice_Franchice1_idx` (`Franchice_IGDB_id` ASC),
+  INDEX `fk_Game_has_Franchice_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Franchice_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Franchice_Franchice1`
     FOREIGN KEY (`Franchice_IGDB_id`)
-    REFERENCES `VGO`.`Franchice` (`IGDB_id`)
+    REFERENCES `VGORD`.`Franchice` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`CollectionGame`
+-- Table `VGORD`.`CollectionGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`CollectionGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`CollectionGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Collection_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Collection_IGDB_id`),
-  INDEX `fk_Game_has_Collection_Collection1_idx` (`Collection_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Collection_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Collection_Collection1_idx` (`Collection_IGDB_id` ASC),
+  INDEX `fk_Game_has_Collection_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Collection_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Collection_Collection1`
     FOREIGN KEY (`Collection_IGDB_id`)
-    REFERENCES `VGO`.`Collection` (`IGDB_id`)
+    REFERENCES `VGORD`.`Collection` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`ThemeGame`
+-- Table `VGORD`.`ThemeGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`ThemeGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`ThemeGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Theme_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Theme_IGDB_id`),
-  INDEX `fk_Game_has_Theme_Theme1_idx` (`Theme_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Theme_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Theme_Theme1_idx` (`Theme_IGDB_id` ASC),
+  INDEX `fk_Game_has_Theme_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Theme_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Theme_Theme1`
     FOREIGN KEY (`Theme_IGDB_id`)
-    REFERENCES `VGO`.`Theme` (`IGDB_id`)
+    REFERENCES `VGORD`.`Theme` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`AgeRatingGame`
+-- Table `VGORD`.`AgeRatingGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`AgeRatingGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`AgeRatingGame` (
   `Game_IGDB_id` INT NOT NULL,
   `AgeRating_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `AgeRating_IGDB_id`),
-  INDEX `fk_Game_has_AgeRating_AgeRating1_idx` (`AgeRating_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_AgeRating_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_AgeRating_AgeRating1_idx` (`AgeRating_IGDB_id` ASC),
+  INDEX `fk_Game_has_AgeRating_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_AgeRating_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_AgeRating_AgeRating1`
     FOREIGN KEY (`AgeRating_IGDB_id`)
-    REFERENCES `VGO`.`AgeRating` (`IGDB_id`)
+    REFERENCES `VGORD`.`AgeRating` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`PerspectiveGame`
+-- Table `VGORD`.`PerspectiveGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`PerspectiveGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`PerspectiveGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Perspective_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Perspective_IGDB_id`),
-  INDEX `fk_Game_has_Perspective_Perspective1_idx` (`Perspective_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Perspective_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Perspective_Perspective1_idx` (`Perspective_IGDB_id` ASC),
+  INDEX `fk_Game_has_Perspective_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Perspective_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Perspective_Perspective1`
     FOREIGN KEY (`Perspective_IGDB_id`)
-    REFERENCES `VGO`.`Perspective` (`IGDB_id`)
+    REFERENCES `VGORD`.`Perspective` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`DeveloperGame`
+-- Table `VGORD`.`DeveloperGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`DeveloperGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`DeveloperGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Developer_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Developer_IGDB_id`),
-  INDEX `fk_Game_has_Developer_Developer1_idx` (`Developer_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Developer_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Developer_Developer1_idx` (`Developer_IGDB_id` ASC),
+  INDEX `fk_Game_has_Developer_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Developer_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Developer_Developer1`
     FOREIGN KEY (`Developer_IGDB_id`)
-    REFERENCES `VGO`.`Developer` (`IGDB_id`)
+    REFERENCES `VGORD`.`Developer` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`PublisherGame`
+-- Table `VGORD`.`PublisherGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`PublisherGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`PublisherGame` (
   `Game_IGDB_id` INT NOT NULL,
   `Publisher_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`Game_IGDB_id`, `Publisher_IGDB_id`),
-  INDEX `fk_Game_has_Publisher_Publisher1_idx` (`Publisher_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Publisher_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Publisher_Publisher1_idx` (`Publisher_IGDB_id` ASC),
+  INDEX `fk_Game_has_Publisher_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Publisher_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Publisher_Publisher1`
     FOREIGN KEY (`Publisher_IGDB_id`)
-    REFERENCES `VGO`.`Publisher` (`IGDB_id`)
+    REFERENCES `VGORD`.`Publisher` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`RelatedGame`
+-- Table `VGORD`.`RelatedGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`RelatedGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`RelatedGame` (
   `GamePrincipal_IGDB_id` INT NOT NULL,
   `GameRelated_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`GamePrincipal_IGDB_id`, `GameRelated_IGDB_id`),
-  INDEX `fk_Game_has_Game_Game2_idx` (`GameRelated_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_Game_has_Game_Game1_idx` (`GamePrincipal_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Game_has_Game_Game2_idx` (`GameRelated_IGDB_id` ASC),
+  INDEX `fk_Game_has_Game_Game1_idx` (`GamePrincipal_IGDB_id` ASC),
   CONSTRAINT `fk_Game_has_Game_Game1`
     FOREIGN KEY (`GamePrincipal_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Game_has_Game_Game2`
     FOREIGN KEY (`GameRelated_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Store`
+-- Table `VGORD`.`Store`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Store` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Store` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `logo` VARCHAR(50) NOT NULL,
@@ -390,131 +390,132 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`StorePlatform`
+-- Table `VGORD`.`StorePlatform`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`StorePlatform` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`StorePlatform` (
   `Platform_IGDB_id` INT NOT NULL,
   `Store_id` INT NOT NULL,
   PRIMARY KEY (`Platform_IGDB_id`, `Store_id`),
-  INDEX `fk_Platform_has_Store_Store1_idx` (`Store_id` ASC) VISIBLE,
-  INDEX `fk_Platform_has_Store_Platform1_idx` (`Platform_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Platform_has_Store_Store1_idx` (`Store_id` ASC),
+  INDEX `fk_Platform_has_Store_Platform1_idx` (`Platform_IGDB_id` ASC),
   CONSTRAINT `fk_Platform_has_Store_Platform1`
     FOREIGN KEY (`Platform_IGDB_id`)
-    REFERENCES `VGO`.`Platform` (`IGDB_id`)
+    REFERENCES `VGORD`.`Platform` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Platform_has_Store_Store1`
     FOREIGN KEY (`Store_id`)
-    REFERENCES `VGO`.`Store` (`id`)
+    REFERENCES `VGORD`.`Store` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Timesbeat`
+-- Table `VGORD`.`Timesbeat`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Timesbeat` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Timesbeat` (
   `IGDB_id` INT NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   `time` VARCHAR(45) NOT NULL,
   `Game_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`IGDB_id`),
-  INDEX `fk_Timesbeat_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Timesbeat_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Timesbeat_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Link`
+-- Table `VGORD`.`Link`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Link` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Link` (
   `IGDB_id` INT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `icon` VARCHAR(45) NOT NULL,
   `url` VARCHAR(45) NOT NULL,
   `Game_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`IGDB_id`),
-  INDEX `fk_Link_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Link_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Link_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Media`
+-- Table `VGORD`.`Media`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Media` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Media` (
   `IGDB_id` INT NOT NULL,
   `type` VARCHAR(45) NOT NULL,
   `url` VARCHAR(45) NOT NULL,
   `Game_IGDB_id` INT NOT NULL,
   PRIMARY KEY (`IGDB_id`),
-  INDEX `fk_Media_Game1_idx` (`Game_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Media_Game1_idx` (`Game_IGDB_id` ASC),
   CONSTRAINT `fk_Media_Game1`
     FOREIGN KEY (`Game_IGDB_id`)
-    REFERENCES `VGO`.`Game` (`IGDB_id`)
+    REFERENCES `VGORD`.`Game` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`User`
+-- Table `VGORD`.`User`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`User` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`User` (
   `id` VARCHAR(45) NOT NULL,
   `username` VARCHAR(16) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
   `email` VARCHAR(255) NULL,
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `darkmode` INT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`UserPlatform`
+-- Table `VGORD`.`UserPlatform`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`UserPlatform` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`UserPlatform` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Platform_IGDB_id` INT NOT NULL,
   `User_id` VARCHAR(45) NOT NULL,
   `emulator` INT NULL,
   `retrocompatible` INT NULL,
   `FisicPlatform_IGDB_id` INT NULL,
-  INDEX `fk_Platform_has_User_User1_idx` (`User_id` ASC) VISIBLE,
-  INDEX `fk_Platform_has_User_Platform1_idx` (`Platform_IGDB_id` ASC) VISIBLE,
-  INDEX `fk_UserPlatform_Platform1_idx` (`FisicPlatform_IGDB_id` ASC) VISIBLE,
+  INDEX `fk_Platform_has_User_User1_idx` (`User_id` ASC),
+  INDEX `fk_Platform_has_User_Platform1_idx` (`Platform_IGDB_id` ASC),
+  INDEX `fk_UserPlatform_Platform1_idx` (`FisicPlatform_IGDB_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Platform_has_User_Platform1`
     FOREIGN KEY (`Platform_IGDB_id`)
-    REFERENCES `VGO`.`Platform` (`IGDB_id`)
+    REFERENCES `VGORD`.`Platform` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Platform_has_User_User1`
     FOREIGN KEY (`User_id`)
-    REFERENCES `VGO`.`User` (`id`)
+    REFERENCES `VGORD`.`User` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_UserPlatform_Platform1`
     FOREIGN KEY (`FisicPlatform_IGDB_id`)
-    REFERENCES `VGO`.`Platform` (`IGDB_id`)
+    REFERENCES `VGORD`.`Platform` (`IGDB_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`UserGame`
+-- Table `VGORD`.`UserGame`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`UserGame` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`UserGame` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `cost` FLOAT NOT NULL,
   `adquireDate` DATE NULL,
@@ -523,31 +524,31 @@ CREATE TABLE IF NOT EXISTS `VGO`.`UserGame` (
   `UserPlatform_id` INT NOT NULL,
   `Store_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_UserGame_PlatformGame1_idx` (`PlatformGame_id` ASC) VISIBLE,
-  INDEX `fk_UserGame_UserPlatform1_idx` (`UserPlatform_id` ASC) VISIBLE,
-  INDEX `fk_UserGame_Store1_idx` (`Store_id` ASC) VISIBLE,
+  INDEX `fk_UserGame_PlatformGame1_idx` (`PlatformGame_id` ASC),
+  INDEX `fk_UserGame_UserPlatform1_idx` (`UserPlatform_id` ASC),
+  INDEX `fk_UserGame_Store1_idx` (`Store_id` ASC),
   CONSTRAINT `fk_UserGame_PlatformGame1`
     FOREIGN KEY (`PlatformGame_id`)
-    REFERENCES `VGO`.`PlatformGame` (`id`)
+    REFERENCES `VGORD`.`PlatformGame` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_UserGame_UserPlatform1`
     FOREIGN KEY (`UserPlatform_id`)
-    REFERENCES `VGO`.`UserPlatform` (`id`)
+    REFERENCES `VGORD`.`UserPlatform` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_UserGame_Store1`
     FOREIGN KEY (`Store_id`)
-    REFERENCES `VGO`.`Store` (`id`)
+    REFERENCES `VGORD`.`Store` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Status`
+-- Table `VGORD`.`Status`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Status` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `icon` VARCHAR(45) NOT NULL,
@@ -558,9 +559,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`Playing`
+-- Table `VGORD`.`Playing`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`Playing` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`Playing` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `DateStart` DATETIME NOT NULL,
   `DateEnd` DATETIME NULL,
@@ -568,34 +569,34 @@ CREATE TABLE IF NOT EXISTS `VGO`.`Playing` (
   `Status_id` INT NOT NULL,
   `Death` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Playing_UserGame1_idx` (`UserGame_id` ASC) VISIBLE,
-  INDEX `fk_Playing_Status1_idx` (`Status_id` ASC) VISIBLE,
+  INDEX `fk_Playing_UserGame1_idx` (`UserGame_id` ASC),
+  INDEX `fk_Playing_Status1_idx` (`Status_id` ASC),
   CONSTRAINT `fk_Playing_UserGame1`
     FOREIGN KEY (`UserGame_id`)
-    REFERENCES `VGO`.`UserGame` (`id`)
+    REFERENCES `VGORD`.`UserGame` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Playing_Status1`
     FOREIGN KEY (`Status_id`)
-    REFERENCES `VGO`.`Status` (`id`)
+    REFERENCES `VGORD`.`Status` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `VGO`.`TimePlayed`
+-- Table `VGORD`.`TimePlayed`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `VGO`.`TimePlayed` (
+CREATE TABLE IF NOT EXISTS `VGORD`.`TimePlayed` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `DateStart` DATETIME NOT NULL,
   `DateEnd` DATETIME NULL,
   `Playing_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_TimePlayed_Playing1_idx` (`Playing_id` ASC) VISIBLE,
+  INDEX `fk_TimePlayed_Playing1_idx` (`Playing_id` ASC),
   CONSTRAINT `fk_TimePlayed_Playing1`
     FOREIGN KEY (`Playing_id`)
-    REFERENCES `VGO`.`Playing` (`id`)
+    REFERENCES `VGORD`.`Playing` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
