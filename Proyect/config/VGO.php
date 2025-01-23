@@ -11,5 +11,18 @@
  * @author Cristian
  */
 class VGO {
-    //put your code here
+
+    public $con; //variable to save BBDD connection
+
+    private function sql_prepare($query, $values) {
+        $stmt = $mysqli->prepare($query);
+
+        if ($values) {
+            foreach ($values as $key => $value) {
+                $stmt->bind_param("s", $value);//asign value a ?
+            }
+        }
+        
+        $stmt->execute();//execute query
+    }
 }
