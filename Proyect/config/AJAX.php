@@ -14,5 +14,7 @@
 include './VGO.php';
 
 class AJAX extends VGO {
-    //put your code here
+    
+    public $result = array("responce"=>"","errorCode"=>0,"errorMessage"=>"","alert"=>0,"reload"=>0,"newLocation"=>"");//array to response ajax conection
+    
 }
