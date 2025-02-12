@@ -31,10 +31,22 @@ class VGO {
         return $stmt;
     }
 
-    public function select($table, $values = "*", $where = array(), $join = "", $group = false, $order = "1") {
+    public function select($table, $values = "*", $join = "", $where = array(), $group = false, $order = "1") {
         $response = array();
         $query = "SELECT " . $values . " FROM " . $table;
-        echo $query;
+        if ($where) {
+            $query .= " WHERE ";
+            $count_w = 0;
+            foreach ($where as $key => $val) {
+                if ($count_w) {
+                    $query .= " AND ";
+                }
+                $operator = "=";
+                $query .= $key . " " . $operator . " " . $val;
+                $count_w++;
+            }
+        }
+        echo $query . "<hr>";
 
         $stmt = $this->sql_prepare($query);
 
