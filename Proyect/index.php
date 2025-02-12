@@ -23,7 +23,7 @@ if (isset($_COOKIE["user_id"])) {
     <?php
     include './includes/head.php';
     ?>
-    <body>
+    <body class="container container-fluid">
         <?php
         include './includes/header.php';
 //        echo '<hr>' . $page;
