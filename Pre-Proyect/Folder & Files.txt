@@ -1,4 +1,7 @@
+/* root */
 root/
+
+/* config files */
 root/config/
 root/config/VGO.php
 root/config/Ajax.php (inherits from VGO.php)
@@ -6,25 +9,45 @@ root/config/API.php (inherits from VGO.php)
 root/config/dades
 root/config/dades/BBDD.json
 root/config/dades/API.json
+
+/* front */
 root/front/
-root/front/general
-root/front/general/game
+/* front general */
+root/front/general/
+root/front/general/login/
+root/front/general/login/index.php
+root/front/general/game/
+root/front/general/game/index.php
 root/front/general/game/list.php
 root/front/general/game/item.php
-root/front/general/platform
+root/front/general/platform/
 root/front/general/platform/list.php
 root/front/general/platform/item.php
-root/front/general/other
+root/front/general/other/
 root/front/general/other/list.php
 root/front/general/other/item.php
+/* front for user */
 root/front/personal/
-root/front/personal/store
+root/front/personal/home/
+root/front/personal/home/index.php
+root/front/personal/store/
 root/front/personal/store/list.php
 root/front/personal/store/item.php
-root/front/personal/top
+root/front/personal/top/
 root/front/personal/top/list.php
 root/front/personal/top/item.php
-root/front/personal/profile
+root/front/personal/profile/
 root/front/personal/profile/profile.php
 root/front/personal/profile/statistic.php
 root/front/personal/profile/sumary.php
+
+/* includes */
+root/includes/
+root/includes/footer.php
+root/includes/head.php
+root/includes/header.php
+root/includes/search.php
+
+/* javascript */
+root/js/
+root/js/conection.js
