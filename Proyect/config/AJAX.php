@@ -20,7 +20,7 @@ class AJAX extends VGO {
         $fields = array_keys($dades);
         $prepare_values = array_values($dades);
 
-        if ($keys && $values) {
+        if ($keys && $prepare_values) {
             $query = "INSERT INTO " . $table . " (";
             foreach ($fields as $key => $field) {
                 if ($key) {
@@ -49,4 +49,29 @@ class AJAX extends VGO {
             return false;
         }
     }
+
+    protected function update($table, $sets, $where) {
+        $fields = array_keys($sets);
+        $prepare_values = array_values($sets);
+        if ($fields && $prepare_values && $where) {
+            $query = "UPDATE " . $table . " SET ";
+            foreach ($fields as $key => $field) {
+                if ($key) {
+                    $query .= ", ";
+                }
+                $query .= $field . " = ?";
+
+                $where_sen = $this->formating_where($where);
+                $query .= $where_sen["query"];
+                array_merge($prepare_values, $where_sen["values"]);
+            }
+        } else {
+            $this->result["errorCode"] = 3;
+            $this->result["errorMessage"] = "Intento de update sin valores, nombre de campo o limitante";
+            return false;
+        }
+    }
+    
+    
+    
 }
