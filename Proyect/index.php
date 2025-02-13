@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-//include './config/VGO.php';
+include './config/VGO.php';
 
-//$VGO = new VGO();
+$VGO = new VGO();
 
 $user_id = 0;
 $page = "home";
@@ -29,7 +29,7 @@ if (isset($_COOKIE["user_id"])) {
         <?php
         include './includes/header.php';
 //        echo '<hr>' . $page;
-        include './front/' .$prepage . "/" . $page . '/index.php';
+        include './front/' . $page . '/index.php';
         include './includes/footer.php';
         ?>
     </body>

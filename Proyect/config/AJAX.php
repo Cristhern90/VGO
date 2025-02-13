@@ -10,7 +10,7 @@
  *
  * @author Cristian
  */
-include './config/VGO.php';
+include './VGO.php';
 
 class AJAX extends VGO {
 

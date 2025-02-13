@@ -7,7 +7,7 @@
             <div>Mis Tops</div>
         <?php } ?>
         <div><a href="?page=game">Juegos</a></div>
-        <div><a href="?page=platform">Plataformas</a></div>
+        <div>Plataformas</div>
         <div>Series</div>
         <div>Generos</div>
         <div>Tiendas</div>
