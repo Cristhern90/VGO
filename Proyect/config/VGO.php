@@ -44,17 +44,9 @@ class VGO {
 
         //where
         if ($where) {
-            $query .= " WHERE ";
-            $count_w = 0;
-            foreach ($where as $key => $val) {
-                if ($count_w) {
-                    $query .= " AND ";
-                }
-                $operator = "=";
-                $query .= $key . " " . $operator . " ?";
-                array_push($prepare_values, $val);
-                $count_w++;
-            }
+            $where_sen = $this->formating_where($where);
+            $query .= $where_sen["query"];
+            $prepare_values = $where_sen["values"];
         }
 
         //group
@@ -63,7 +55,7 @@ class VGO {
         }
         //order
         $query .= " ORDER BY " . $order;
-        
+
         //prepare query
         $stmt = $this->sql_prepare($query, $prepare_values);
 
@@ -74,5 +66,22 @@ class VGO {
         $response = $result->fetch_all(MYSQLI_ASSOC);
 
         return $response;
+    }
+
+    protected function formating_where($where) {
+        $prepare_values = array();
+        $sentence = " WHERE ";
+        $count_w = 0;
+        foreach ($where as $key => $val) {
+            if ($count_w) {
+                $query .= " AND ";
+            }
+            $operator = "=";
+            $sentence .= $key . " " . $operator . " ?";
+            array_push($prepare_values, $val);
+            $count_w++;
+        }
+
+        return array("query" => $sentence, "values" => $prepare_values);
     }
 }
