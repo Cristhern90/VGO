@@ -1,6 +1,6 @@
 {
     "server": "locahost",
     "BBDD": "vgord",
-    "user": "",
+    "user": "root",
     "pass": ""
 }
