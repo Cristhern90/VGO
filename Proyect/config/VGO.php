@@ -32,8 +32,17 @@ class VGO {
     }
 
     public function select($table, $values = "*", $join = "", $where = array(), $group = false, $order = "1") {
-        $response = array();
+        $prepare_values = array();
+
+        //Select values and from
         $query = "SELECT " . $values . " FROM " . $table;
+
+        //joins
+        if ($join) {
+            $query .= " " . $join;
+        }
+
+        //where
         if ($where) {
             $query .= " WHERE ";
             $count_w = 0;
@@ -42,21 +51,27 @@ class VGO {
                     $query .= " AND ";
                 }
                 $operator = "=";
-                $query .= $key . " " . $operator . " " . $val;
+                $query .= $key . " " . $operator . " ?";
+                array_push($prepare_values, $val);
                 $count_w++;
             }
         }
-        echo $query . "<hr>";
 
-        $stmt = $this->sql_prepare($query);
+        //group
+        if ($group) {
+            $query .= " GROUP BY " . $group;
+        }
+        //order
+        $query .= " ORDER BY " . $order;
+        
+        //prepare query
+        $stmt = $this->sql_prepare($query, $prepare_values);
 
+        //get resul
         $result = $stmt->get_result();
 
-        $response = ($result->fetch_all(MYSQLI_ASSOC));
-
-//        while ($stmt->fetch()) {
-//            printf("id = %s (%s), label = %s (%s)\n", $out_id, gettype($out_id), $out_label, gettype($out_label));
-//        }
+        //save result in array
+        $response = $result->fetch_all(MYSQLI_ASSOC);
 
         return $response;
     }
