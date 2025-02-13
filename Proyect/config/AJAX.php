@@ -37,7 +37,7 @@ class AJAX extends VGO {
             }
             $query .= ")";
 
-            if ($stmt = $this->sql_prepare($query, $prepare_values)) {
+            if ($this->sql_prepare($query, $prepare_values)) {
                 return true;
             } else {
                 $this->result["errorCode"] = 3;
@@ -53,7 +53,7 @@ class AJAX extends VGO {
     protected function update($table, $sets, $where) {
         $fields = array_keys($sets);
         $prepare_values = array_values($sets);
-        if ($fields && $prepare_values && $where) {
+        if ($fields && $prepare_values && array_values($where)) {
             $query = "UPDATE " . $table . " SET ";
             foreach ($fields as $key => $field) {
                 if ($key) {
@@ -65,13 +65,33 @@ class AJAX extends VGO {
                 $query .= $where_sen["query"];
                 array_merge($prepare_values, $where_sen["values"]);
             }
+
+            if ($this->sql_prepare($query, $prepare_values)) {
+                return true;
+            } else {
+                $this->result["errorCode"] = 3;
+                return false;
+            }
         } else {
             $this->result["errorCode"] = 3;
-            $this->result["errorMessage"] = "Intento de update sin valores, nombre de campo o limitante";
+            $this->result["errorMessage"] = "Intento de update sin valores, nombre de campo o limitantes";
             return false;
         }
     }
-    
-    
-    
+
+    protected function delete($table, $where) {
+        $fields = array_keys($where);
+        $prepare_values = array_values($where);
+        if ($fields && $prepare_values) {
+            $query = "DELETE FROM " . $table . " ";
+
+            $where_sen = $this->formating_where($where);
+            $query .= $where_sen["query"];
+            array_merge($prepare_values, $where_sen["values"]);
+        } else {
+            $this->result["errorCode"] = 3;
+            $this->result["errorMessage"] = "Intento de update sin limitantes";
+            return false;
+        }
+    }
 }
