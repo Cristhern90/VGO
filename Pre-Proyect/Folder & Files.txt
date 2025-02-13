@@ -50,4 +50,4 @@ root/includes/search.php
 
 /* javascript */
 root/js/
-root/js/conection.js
+root/js/connection.js

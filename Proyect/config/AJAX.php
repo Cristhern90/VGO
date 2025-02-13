@@ -14,7 +14,7 @@ include './VGO.php';
 
 class AJAX extends VGO {
 
-    public $result = array("responce" => "", "errorCode" => 0, "errorMessage" => "", "alert" => 0, "reload" => 0, "newLocation" => ""); //array to response ajax conection
+    public $result = array("response" => "", "errorCode" => 0, "errorMessage" => "", "alert" => 0, "reload" => 0, "newLocation" => ""); //array to response ajax conection
 
     protected function insert($table, $dades) {//insert only one row
         $fields = array_keys($dades);
@@ -40,10 +40,11 @@ class AJAX extends VGO {
             if ($stmt = $this->sql_prepare($query, $prepare_values)) {
                 return true;
             } else {
+                $this->result["errorCode"] = 3;
                 return false;
             }
         } else {
-            $this->result["errorCode"] = 1;
+            $this->result["errorCode"] = 3;
             $this->result["errorMessage"] = "Intento de insert sin valores o nombre de campo";
             return false;
         }
