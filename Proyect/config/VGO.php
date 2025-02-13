@@ -12,10 +12,22 @@
  */
 class VGO {
 
-    public $con; //variable to save BBDD connection
+    protected $data_sql = array("server" => "", "BBDD" => "", "user" => "", "pass" => "");
+    private $con; //variable to save BBDD connection
 
     public function __construct() {
-        $this->con = new mysqli("localhost", "root", "", "vgord");
+        $this->read_BBDD_Json("./config/dades/BBDD.json");
+        print_r($this->data_sql);
+        $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
+    }
+
+    private function read_BBDD_Json($fileName) {
+        $json_file = file_get_contents($fileName);
+        $json_array = json_decode($json_file, true);
+        
+        foreach ($json_array as $key => $json) {
+            $this->data_sql[$key] = $json;
+        }
     }
 
     private function sql_prepare($query, $values = false) {
