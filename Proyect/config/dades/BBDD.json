@@ -1,5 +1,5 @@
 {
-    "server": "locahost",
+    "server": "localhost",
     "BBDD": "vgord",
     "user": "root",
     "pass": ""
