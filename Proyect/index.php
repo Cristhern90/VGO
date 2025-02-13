@@ -7,8 +7,10 @@ $VGO = new VGO();
 
 $user_id = 0;
 $page = "home";
+$prepage = "general";
 if (isset($_COOKIE["user_id"])) {
     $user_id = $_COOKIE["user_id"]; // get user id
+    $prepage = "personal";
     if (iseet($_GET["page"])) {
         $page = $_GET["page"]; // get page
     }
