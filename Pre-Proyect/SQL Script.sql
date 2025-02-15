@@ -215,12 +215,37 @@ CREATE TABLE `perspectivegame` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `platformtype`
+--
+
+CREATE TABLE `platformtype` (
+  `IGDB_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `platformfamily`
+--
+
+CREATE TABLE `platformfamily` (
+  `IGDB_id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `platform`
 --
 
 CREATE TABLE `platform` (
   `IGDB_id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `generation` int(11) NOT NULL,
+  `PlatformType_IGDB_id` int(11) NOT NULL,
+  `PlatformFamily_IGDB_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
