@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-//include './config/VGO.php';
+include './config/VGO.php';
 
-//$VGO = new VGO();
+$VGO = new VGO();
 
 $user_id = 0;
 $page = "home";

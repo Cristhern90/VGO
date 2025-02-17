@@ -15,6 +15,13 @@ include './config/VGO.php';
 class AJAX extends VGO {
 
     public $result = array("response" => "", "errorCode" => 0, "errorMessage" => "", "alert" => 0, "reload" => 0, "newLocation" => ""); //array to response ajax conection
+    protected $post_dat = array(); //array to get dades
+    
+    #[\Override]
+    public function __construct($post_dat) {
+        parent::__construct();
+        $this->post_dat = $post_dat;
+    }
 
     protected function insert($table, $dades) {//insert only one row
         $fields = array_keys($dades);
