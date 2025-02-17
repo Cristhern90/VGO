@@ -16,10 +16,10 @@ class API extends AJAX {
 
     protected $data_api = array("client" => "", "client_secret" => "", "token" => "");
 
+    #[\Override]
     public function __construct() {
         parent::__construct();
-        $this->read_API_Json("./config/dades/API.json");
-        print_r($this->data_api);
+        $this->read_API_Json("./config/dades/API.json");//read JSON of API
     }
 
     private function read_API_Json($fileName) {
@@ -36,12 +36,7 @@ class API extends AJAX {
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_RETURNTRANSFER => true,CURLOPT_ENCODING => '',CURLOPT_MAXREDIRS => 10,CURLOPT_TIMEOUT => 0,CURLOPT_FOLLOWLOCATION => true,CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_HTTPHEADER => array(
