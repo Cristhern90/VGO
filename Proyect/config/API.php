@@ -69,7 +69,23 @@ class API extends AJAX {
         $plats = $this->IGDB_API_con($url, $body);
         
         foreach ($plats as $key => $plat) {
-            print_r($plat);
+            $this->if_not_exists_insert_platformFamily($plat["platform_family.id"], $plat["platform_family.name"]);//add families if not exists
+            $this->delete("platform", array("IGDB_id"=>$plat["id"]));//delete to prevent duplicates
+            $dades = array(
+                "IGDB_id"=>$plat["id"],
+                "name"=>$plat["name"],
+                "generation"=>$plat["generation"],
+                "PlatformType_IGDB_id"=>$plat["category"],
+                "PlatformFamily_IGDB_id"=>$plat["platform_family.id"],
+            );
+            $this->insert("platform", $dades);//insert platform
+        }
+    }
+    
+    private function if_not_exists_insert_platformFamily($id,$name){
+        $count = $this->select("platformfamily","count(*) cant",false,array("IGDB_id"=>$id))[0]["cant"];
+        if($count){
+            $this->insert("platformfamily", array("IGDB_id"=>$id,"name"=>$name));
         }
     }
 }
