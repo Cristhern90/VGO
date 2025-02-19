@@ -243,9 +243,9 @@ CREATE TABLE `platformfamily` (
 CREATE TABLE `platform` (
   `IGDB_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `generation` int(11) NOT NULL,
-  `PlatformType_IGDB_id` int(11) NOT NULL,
-  `PlatformFamily_IGDB_id` int(11) NOT NULL
+  `generation` int(11) NULL,
+  `PlatformType_IGDB_id` int(11) NULL,
+  `PlatformFamily_IGDB_id` int(11) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
