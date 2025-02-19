@@ -35,8 +35,12 @@ class VGO {
 //        print_r($this->data_sql);
         $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
         $stmt = $this->con->prepare($query);
-
+        
         if ($values) {
+
+            echo $query;
+            echo print_r($values);
+
             foreach ($values as $key => $value) {
                 $stmt->bind_param("s", $value); //asign value a ?
             }

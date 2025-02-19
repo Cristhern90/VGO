@@ -36,9 +36,6 @@ class AJAX extends VGO {
                 $query .= ($key?", ":"")."?";
             }
             $query .= ")";
-
-            echo $query;
-            echo print_r($prepare_values);
             
             if ($this->sql_prepare($query, $prepare_values)) {
                 return true;
