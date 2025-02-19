@@ -26,23 +26,19 @@ class platform extends API {
 
         $plats = $this->IGDB_API_con($url, $body);
 
-//        print_r($plats);
-
         foreach ($plats as $key => $plat) {
-//            print_r($plat);
-//            echo $key. " => ".$plat["id"]."<br>";
+            $dades = array(
+                "IGDB_id"=>$plat["id"],
+                "name"=>$plat["name"],
+                "generation"=>$plat["generation"],
+                "PlatformType_IGDB_id"=>$plat["category"],
+            );
             if (isset($plat["platform_family"])) {
                 $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]); //add families if not exists
+                $dades["PlatformFamily_IGDB_id"] = $plat["platform_family"]["id"];//if has family in api add to insert values
             }
-//            $this->delete("platform", array("IGDB_id"=>$plat["id"]));//delete to prevent duplicates
-//            $dades = array(
-//                "IGDB_id"=>$plat["id"],
-//                "name"=>$plat["name"],
-//                "generation"=>$plat["generation"],
-//                "PlatformType_IGDB_id"=>$plat["category"],
-//                "PlatformFamily_IGDB_id"=>$plat["platform_family"]["id"],
-//            );
-//            $this->insert("platform", $dades);//insert platform
+            $this->delete("platform", array("IGDB_id"=>$plat["id"]));//delete to prevent duplicates
+            $this->insert("platform", $dades);//insert platform
         }
 
         $this->result["reload"] = 1; //send reload action
