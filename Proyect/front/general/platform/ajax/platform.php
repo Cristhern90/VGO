@@ -21,7 +21,7 @@ class platform extends API {
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,
             versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;
-            where id = 62;
+            where id = 508;
             limit 500;";
 
         $plats = $this->IGDB_API_con($url, $body);
