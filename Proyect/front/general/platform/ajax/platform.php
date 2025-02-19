@@ -19,7 +19,7 @@ class platform extends API {
 
     public function download_new_plats() {
         $ids = $this->select("platforms", "GROUP_CONCAT(IGDB_id ORDER BY IGDB_id ASC SEPARATOR ', ') ids")[0]["ids"];
-        if ($this->act_plat($ids)) {
+        if ($this->act_plat($ids,1)) {
             $this->result["reload"] = 1; //send reload action
         } else {
             $this->result["errorCode"] = 3;
@@ -42,16 +42,16 @@ class platform extends API {
         }
     }
 
-    private function act_plat($ids = "") {
+    private function act_plat($ids = "", $inverse = 0) {
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;";
         if ($ids) {
             if (is_array($ids)) {
-                $body .= "where";
+                $text_ids = "";
                 foreach ($ids as $key => $id) {
-                    $body .= ($key ? " &" : "") . " id = " . $id;
+                    $text_ids .= ($key ? ", " : ""). $id;
                 }
-                $body .= ";";
+                $body .= "where id ".($inverse?"!=":"=")." (".$text_ids.");";
             } else {
                 $body .= "where id = " . $ids . ";";
             }
