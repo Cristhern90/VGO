@@ -5,8 +5,10 @@ $plats = $VGO->select("platform p", "p.*, pf.name family", "LEFT JOIN platformfa
 <span><button class="btn-secondary" title="Actualizar plataformas" onclick="act_plats()"><i class="fa fa-reload"></i>a</button></span>
 <div class="row">
     <?php foreach ($plats as $key => $plat) { ?>
-        <div class="col-2">
-            <?= $plat["name"] ?> <?= ($plat["family"] ? "(" . $plat["family"] . ")" : "") ?>
+        <div class="col-2 p-1">
+            <div class="border border-3 w-100 p-1" onclick="reload_more({id:<?= $plat["IGDB_id"] ?>})">
+                <div><?= $plat["name"] ?> <?= ($plat["family"] ? "(" . $plat["family"] . ")" : "") ?></div>
+            </div>
         </div>
     <?php } ?>
 </div>
