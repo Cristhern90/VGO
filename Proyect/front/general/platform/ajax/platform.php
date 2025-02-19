@@ -9,11 +9,10 @@ include '../../../../config/API.php';
  */
 class platform extends API {
     
-    
+    #[\Override]
     public function __construct($post_dat) {
-        $this->post_dat = $post_dat;
-        $url_json_bbdd = "../../../../config/dades/BBDD.json";
-        $this->read_API_Json("../../../../config/dades/API.json");//read JSON of API
+        $this->url_json_bbdd = "../../../../config/dades/";
+        parent::__construct($post_dat);
     }
     
     /*API*/
@@ -21,6 +20,7 @@ class platform extends API {
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,
             versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;
+            where id = 62;
             limit 500;";
         
         $plats = $this->IGDB_API_con($url, $body);
@@ -45,10 +45,11 @@ class platform extends API {
     }
     
     private function if_not_exists_insert_platformFamily($id,$name){
-        $count = $this->select("platformfamily","count(*) cant",false,array("IGDB_id"=>$id))[0]["cant"];
-        if(!$count){
-            $this->insert("platformfamily", array("IGDB_id"=>$id,"name"=>$name));
-        }
+        $count = $this->select("platformfamily","count(*) cant",false,array("IGDB_id"=>$id));
+        print_r($count);
+//        if(!$count){
+//            $this->insert("platformfamily", array("IGDB_id"=>$id,"name"=>$name));
+//        }
     }
     /*End API*/
 }

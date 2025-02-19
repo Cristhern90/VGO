@@ -13,14 +13,18 @@
 class VGO {
 
     protected $data_sql = array("server" => "", "BBDD" => "", "user" => "", "pass" => "");
-    protected $url_json_bbdd = "";
+    protected $url_json = "";
     private $con; //variable to save BBDD connection
 
     public function __construct() {
-        $this->url_json_bbdd = "./config/dades/BBDD.json";
+        $this->url_json_bbdd = "./config/dades/";
     }
 
     private function read_BBDD_Json($fileName) {
+        $this->read_BBDD_Json($this->url_json_bbdd."BBDD.json");
+//        print_r($this->data_sql);
+        $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
+        
         $json_file = file_get_contents($fileName);
         $json_array = json_decode($json_file, true);
         
@@ -30,9 +34,6 @@ class VGO {
     }
 
     private function sql_prepare($query, $values = false) {
-        $this->read_BBDD_Json($this->url_json_bbdd);
-//        print_r($this->data_sql);
-        $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
         $stmt = $this->con->prepare($query);
 
         if ($values) {

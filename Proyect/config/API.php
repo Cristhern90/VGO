@@ -19,7 +19,7 @@ class API extends AJAX {
     #[\Override]
     public function __construct($post_dat) {
         parent::__construct($post_dat);
-        $this->read_API_Json("dades/API.json");//read JSON of API
+        $this->read_API_Json($this->url_json_bbdd."API.json");//read JSON of API
     }
 
     protected function read_API_Json($fileName) {
