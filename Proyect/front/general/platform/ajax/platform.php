@@ -48,9 +48,12 @@ class platform extends API {
             $dades = array(
                 "IGDB_id" => $plat["id"],
                 "name" => $plat["name"],
-                "generation" => $plat["generation"],
                 "PlatformType_IGDB_id" => $plat["category"],
             );
+            
+            if (isset($plat["generation"])) {
+                $dades["generation"] = $plat["generation"]; //if has family in api add to insert values
+            }
             if (isset($plat["platform_family"])) {
                 $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]); //add families if not exists
                 $dades["PlatformFamily_IGDB_id"] = $plat["platform_family"]["id"]; //if has family in api add to insert values
