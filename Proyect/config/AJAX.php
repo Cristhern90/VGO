@@ -26,20 +26,14 @@ class AJAX extends VGO {
         $fields = array_keys($dades);
         $prepare_values = array_values($dades);
 
-        if ($keys && $prepare_values) {
+        if ($fields && $prepare_values) {
             $query = "INSERT INTO " . $table . " (";
             foreach ($fields as $key => $field) {
-                if ($key) {
-                    $query .= ", ";
-                }
-                $query .= $field;
+                $query .= ($key?", ":"").$field;
             }
             $query .= ") VALUES (";
             foreach ($fields as $key => $field) {
-                if ($key) {
-                    $query .= ", ";
-                }
-                $query .= "?";
+                $query .= ($key?", ":"")."?";
             }
             $query .= ")";
 
