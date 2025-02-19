@@ -11,7 +11,7 @@ print_r($plats);
 
     function act_plats() {
         let myArray = new FormData();
-        myArray.append("function", "act_plats");
+        myArray.append("function", "act_all_plats");
         console.log(page);
         conect(page, myArray);
     }
