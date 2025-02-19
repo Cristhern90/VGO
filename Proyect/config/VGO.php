@@ -14,7 +14,7 @@ class VGO {
 
     protected $data_sql = array("server" => "", "BBDD" => "", "user" => "", "pass" => "");
     protected $url_json = "";
-    private $con; //variable to save BBDD connection
+    protected $con; //variable to save BBDD connection
 
     public function __construct() {
         $this->url_json_bbdd = "./config/dades/";
