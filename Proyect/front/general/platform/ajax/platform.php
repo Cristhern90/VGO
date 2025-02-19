@@ -17,6 +17,15 @@ class platform extends API {
 
     /* API */
 
+    public function download_new_plats() {
+        $ids = $this->select("platforms", "GROUP_CONCAT(IGDB_id ORDER BY IGDB_id ASC SEPARATOR ', ') ids")[0]["ids"];
+        if ($this->act_plat($ids)) {
+            $this->result["reload"] = 1; //send reload action
+        } else {
+            $this->result["errorCode"] = 3;
+        }
+    }
+
     public function act_all_plats() {
         if ($this->act_plat()) {
             $this->result["reload"] = 1; //send reload action
@@ -33,43 +42,56 @@ class platform extends API {
         }
     }
 
-    private function act_plat($id = "") {
+    private function act_plat($ids = "") {
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;";
-        if ($id) {
-            $body .= "where id = " . $id . ";";
+        if ($ids) {
+            if (is_array($ids)) {
+                $body .= "where";
+                foreach ($ids as $key => $id) {
+                    $body .= ($key ? " &" : "") . " id = " . $id;
+                }
+                $body .= ";";
+            } else {
+                $body .= "where id = " . $ids . ";";
+            }
         }
         $body .= "limit 500;";
         $result = 0;
 
         $plats = $this->IGDB_API_con($url, $body);
 
-        foreach ($plats as $key => $plat) {
-            $dades = array(
-                "IGDB_id" => $plat["id"],
-                "name" => $plat["name"]
-            );
-            
-            if (isset($plat["category"])) {
-                $dades["PlatformType_IGDB_id"] = $plat["category"]; //if has category in api add to insert values
-            }
-            if (isset($plat["generation"])) {
-                $dades["generation"] = $plat["generation"]; //if has generation in api add to insert values
-            }
-            if (isset($plat["platform_family"])) {
-                $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]); //add families if not exists
-                $dades["PlatformFamily_IGDB_id"] = $plat["platform_family"]["id"]; //if has family in api add to insert values
-            }
-            $this->delete("platform", array("IGDB_id" => $plat["id"])); //delete to prevent duplicates
-            if ($this->insert("platform", $dades)) { //insert platform
-                $result++;
-            } else {
-                $result = 0;
-                break;
-            }
-        }
+        if ($plats) {
+            foreach ($plats as $key => $plat) {
+                $dades = array(
+                    "IGDB_id" => $plat["id"],
+                    "name" => $plat["name"]
+                );
 
-        return $result;
+                if (isset($plat["category"])) {
+                    $dades["PlatformType_IGDB_id"] = $plat["category"]; //if has category in api add to insert values
+                }
+                if (isset($plat["generation"])) {
+                    $dades["generation"] = $plat["generation"]; //if has generation in api add to insert values
+                }
+                if (isset($plat["platform_family"])) {
+                    $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]); //add families if not exists
+                    $dades["PlatformFamily_IGDB_id"] = $plat["platform_family"]["id"]; //if has family in api add to insert values
+                }
+                $this->delete("platform", array("IGDB_id" => $plat["id"])); //delete to prevent duplicates
+                if ($this->insert("platform", $dades)) { //insert platform
+                    $result++;
+                } else {
+                    $result = 0;
+                    break;
+                }
+            }
+            return $result;
+        } else {
+            $this->result["alert"] = 1;
+            $this->result["response"] = "No hay plataformas pendeintes";
+            return 1;
+        }
     }
 
     private function if_not_exists_insert_platformFamily($id, $name) {
