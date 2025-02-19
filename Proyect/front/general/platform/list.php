@@ -1,5 +1,5 @@
 <?php
-$plats = $VGO->select("platform","*");
+$plats = $VGO->select("platform p","p.*, pf.name family","LEFT JOIN platformfamily pf ON pf.IGDB_id = p.PlatformFamily_IGDB_id");
 
 
 print_r($plats);

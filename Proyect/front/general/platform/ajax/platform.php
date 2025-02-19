@@ -49,10 +49,10 @@ class platform extends API {
 
     private function if_not_exists_insert_platformFamily($id, $name) {
         $count = $this->select("platformfamily", "count(*) cant", false, array("IGDB_id" => $id));
-        print_r($count);
-//        if(!$count){
-//            $this->insert("platformfamily", array("IGDB_id"=>$id,"name"=>$name));
-//        }
+//        print_r($count);
+        if(!$count){
+            $this->insert("platformfamily", array("IGDB_id"=>$id,"name"=>$name));
+        }
     }
 
     /* End API */
