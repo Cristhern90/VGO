@@ -29,6 +29,7 @@ class platform extends API {
 //        print_r($plats);
 
         foreach ($plats as $key => $plat) {
+            print_r($plat);
 //            echo $key. " => ".$plat["id"]."<br>";
             if (isset($plat["platform_family"])) {
                 $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]); //add families if not exists
