@@ -37,6 +37,8 @@ class AJAX extends VGO {
             }
             $query .= ")";
 
+            echo $query;
+            
             if ($this->sql_prepare($query, $prepare_values)) {
                 return true;
             } else {
