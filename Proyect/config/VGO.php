@@ -21,29 +21,44 @@ class VGO {
     }
 
     private function read_BBDD_Json($fileName) {
-        
         $json_file = file_get_contents($fileName);
         $json_array = json_decode($json_file, true);
-        
+
         foreach ($json_array as $key => $json) {
             $this->data_sql[$key] = $json;
         }
     }
 
     protected function sql_prepare($query, $values = false) {
-        $this->read_BBDD_Json($this->url_json_bbdd."BBDD.json");
+        $this->read_BBDD_Json($this->url_json_bbdd . "BBDD.json");
 //        print_r($this->data_sql);
         $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
         $stmt = $this->con->prepare($query);
-        
+
         if ($values) {
 
             echo $query;
             echo print_r($values);
 
-            foreach ($values as $key => $value) {
-                $stmt->bind_param("s", $value); //asign value a ?
+            // Generar los tipos dinámicamente
+            $types = "";
+            $params = [];
+
+            foreach ($values as $value) {
+                if (is_int($value)) {
+                    $types .= "i"; // Entero
+                } else if (is_double($value)) {
+                    $types .= "d"; // Doble
+                } else if (is_string($value)) {
+                    $types .= "s"; // String
+                } else {
+                    $types .= "b"; // Blob u otro tipo binario
+                }
+                $params[] = $value;
             }
+
+            // `bind_param` requiere parámetros por referencia
+            $stmt->bind_param($types, ...$params);
         }
 
         $stmt->execute(); //execute query
