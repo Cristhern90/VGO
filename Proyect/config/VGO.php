@@ -37,9 +37,6 @@ class VGO {
 
         if ($values) {
 
-            echo $query;
-            echo print_r($values);
-
             // Generar los tipos dinámicamente
             $types = "";
             $params = [];
