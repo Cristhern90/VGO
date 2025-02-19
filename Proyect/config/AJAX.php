@@ -10,16 +10,15 @@
  *
  * @author Cristian
  */
-include './config/VGO.php';
+include 'VGO.php';
 
 class AJAX extends VGO {
 
     public $result = array("response" => "", "errorCode" => 0, "errorMessage" => "", "alert" => 0, "reload" => 0, "newLocation" => ""); //array to response ajax conection
-    protected $post_dat = array(); //array to get dades
+    public $post_dat = array(); //array to get dades
     
     #[\Override]
     public function __construct($post_dat) {
-        parent::__construct();
         $this->post_dat = $post_dat;
     }
 

@@ -10,7 +10,7 @@
  *
  * @author Cristian
  */
-include './config/AJAX.php';
+include 'AJAX.php';
 
 class API extends AJAX {
 
@@ -19,10 +19,10 @@ class API extends AJAX {
     #[\Override]
     public function __construct($post_dat) {
         parent::__construct($post_dat);
-        $this->read_API_Json("./config/dades/API.json");//read JSON of API
+        $this->read_API_Json("dades/API.json");//read JSON of API
     }
 
-    private function read_API_Json($fileName) {
+    protected function read_API_Json($fileName) {
         $json_file = file_get_contents($fileName);
         $json_array = json_decode($json_file, true);
 
@@ -31,7 +31,7 @@ class API extends AJAX {
         }
     }
 
-    private function IGDB_API_con($url, $body) {
+    protected function IGDB_API_con($url, $body) {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -50,8 +50,8 @@ class API extends AJAX {
 
         curl_close($curl);
 
-        print_r($response);
+//        print_r($response);
 
-        return $response;
+        return json_decode($response, true);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-include './config/API.php';
+include '../../../../config/API.php';
 
 /**
  * Description of platform
@@ -8,6 +8,13 @@ include './config/API.php';
  * @author Cristian
  */
 class platform extends API {
+    
+    
+    public function __construct($post_dat) {
+        $this->post_dat = $post_dat;
+        $url_json_bbdd = "../../../../config/dades/BBDD.json";
+        $this->read_API_Json("../../../../config/dades/API.json");//read JSON of API
+    }
     
     /*API*/
     public function act_plats() {
@@ -18,17 +25,20 @@ class platform extends API {
         
         $plats = $this->IGDB_API_con($url, $body);
         
+        print_r($plats);
+        
         foreach ($plats as $key => $plat) {
-            $this->if_not_exists_insert_platformFamily($plat["platform_family.id"], $plat["platform_family.name"]);//add families if not exists
-            $this->delete("platform", array("IGDB_id"=>$plat["id"]));//delete to prevent duplicates
-            $dades = array(
-                "IGDB_id"=>$plat["id"],
-                "name"=>$plat["name"],
-                "generation"=>$plat["generation"],
-                "PlatformType_IGDB_id"=>$plat["category"],
-                "PlatformFamily_IGDB_id"=>$plat["platform_family.id"],
-            );
-            $this->insert("platform", $dades);//insert platform
+//            echo $key. " => ".$plat["id"]."<br>";
+            $this->if_not_exists_insert_platformFamily($plat["platform_family"]["id"], $plat["platform_family"]["name"]);//add families if not exists
+//            $this->delete("platform", array("IGDB_id"=>$plat["id"]));//delete to prevent duplicates
+//            $dades = array(
+//                "IGDB_id"=>$plat["id"],
+//                "name"=>$plat["name"],
+//                "generation"=>$plat["generation"],
+//                "PlatformType_IGDB_id"=>$plat["category"],
+//                "PlatformFamily_IGDB_id"=>$plat["platform_family"]["id"],
+//            );
+//            $this->insert("platform", $dades);//insert platform
         }
         
         $this->result["reload"] = 1;//send reload action
@@ -43,7 +53,9 @@ class platform extends API {
     /*End API*/
 }
 
+
 $obj = new platform($_POST);
-$function = $obj->$post_dat["function"];
+//print_r($obj->post_dat);
+$function = $obj->post_dat["function"];
 $obj->$function();
 echo json_encode($obj->result, JSON_PRETTY_PRINT);

@@ -1,10 +1,10 @@
 <?php
 
-$page = "list";
+$elemnt = "list";
 $id = "";
 if (isset($_GET["id"])) {
-    $page = "element";
+    $elemnt = "element";
     $id = $_GET["id"];
 }
 
-include $page.'.php';
+include $elemnt.'.php';
