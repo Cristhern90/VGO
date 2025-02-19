@@ -33,7 +33,7 @@ class VGO {
         }
     }
 
-    private function sql_prepare($query, $values = false) {
+    protected function sql_prepare($query, $values = false) {
         $stmt = $this->con->prepare($query);
 
         if ($values) {
