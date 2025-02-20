@@ -18,8 +18,8 @@ class platform extends API {
     /* API */
 
     public function download_new_plats() {
-        $ids = $this->select("platforms", "GROUP_CONCAT(IGDB_id ORDER BY IGDB_id ASC SEPARATOR ', ') ids")[0]["ids"];
-        if ($this->act_plat($ids,1)) {
+        $ids = $this->select("platform", "GROUP_CONCAT(IGDB_id ORDER BY IGDB_id ASC SEPARATOR ', ') ids")[0]["ids"];
+        if ($this->act_plat($ids, 1)) {
             $this->result["reload"] = 1; //send reload action
         } else {
             $this->result["errorCode"] = 3;
@@ -43,29 +43,49 @@ class platform extends API {
     }
 
     private function act_plat($ids = "", $inverse = 0) {
+//        echo $inverse;
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;";
         if ($ids) {
             if (is_array($ids)) {
                 $text_ids = "";
                 foreach ($ids as $key => $id) {
-                    $text_ids .= ($key ? ", " : ""). $id;
+                    $text_ids .= ($key ? ", " : "") . $id;
                 }
-                $body .= "where id ".($inverse?"!=":"=")." (".$text_ids.");";
+                $body .= "where id " . ($inverse ? "!=" : "=") . " (" . $text_ids . ");";
             } else {
-                $body .= "where id = " . $ids . ";";
+                $body .= "where id " . ($inverse ? "!=" : "=") . " (" . $ids . ");";
             }
         }
         $body .= "limit 500;";
         $result = 0;
-
+//        echo $body;
         $plats = $this->IGDB_API_con($url, $body);
+
+//        print_r($plats);
 
         if ($plats) {
             foreach ($plats as $key => $plat) {
+                $logo = "";
+                if (isset($plat["versions"])) {
+                    foreach ($plat["versions"] as $key => $version) {
+                        if ($version["name"] == "Initial version") {
+                            if (isset($version["platform_logo"]["image_id"])) {
+                                $logo = $version["platform_logo"]["image_id"];
+                            }
+                        } else {
+                            if (!$logo) {
+                                if (isset($version["platform_logo"]["image_id"])) {
+                                    $logo = $version["platform_logo"]["image_id"];
+                                }
+                            }
+                        }
+                    }
+                }
                 $dades = array(
                     "IGDB_id" => $plat["id"],
-                    "name" => $plat["name"]
+                    "name" => $plat["name"],
+                    "logo" => $logo
                 );
 
                 if (isset($plat["category"])) {

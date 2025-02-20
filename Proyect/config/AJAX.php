@@ -88,6 +88,13 @@ class AJAX extends VGO {
             $where_sen = $this->formating_where($where);
             $query .= $where_sen["query"];
             array_merge($prepare_values, $where_sen["values"]);
+
+            if ($this->sql_prepare($query, $prepare_values)) {
+                return true;
+            } else {
+                $this->result["errorCode"] = 3;
+                return false;
+            }
         } else {
             $this->result["errorCode"] = 3;
             $this->result["errorMessage"] = "Intento de update sin limitantes";

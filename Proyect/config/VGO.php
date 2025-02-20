@@ -30,35 +30,49 @@ class VGO {
     }
 
     protected function sql_prepare($query, $values = false) {
+//        echo $query;
         $this->read_BBDD_Json($this->url_json_bbdd . "BBDD.json");
-//        print_r($this->data_sql);
-        $this->con = new mysqli($this->data_sql["server"], $this->data_sql["user"], $this->data_sql["pass"], $this->data_sql["BBDD"]);
+
+        $this->con = new mysqli(
+                $this->data_sql["server"],
+                $this->data_sql["user"],
+                $this->data_sql["pass"],
+                $this->data_sql["BBDD"]
+        );
+
+        if ($this->con->connect_error) {
+            die("Conexión fallida: " . $this->con->connect_error);
+        }
+
         $stmt = $this->con->prepare($query);
-
+        if (!$stmt) {
+            die("Error en prepare(): " . $this->con->error);
+        }
         if ($values) {
-
-            // Generar los tipos dinámicamente
             $types = "";
             $params = [];
 
-            foreach ($values as $value) {
+            foreach ($values as &$value) { // ¡Importante: Pasar por referencia!
                 if (is_int($value)) {
                     $types .= "i"; // Entero
-                } else if (is_double($value)) {
+                } elseif (is_double($value)) {
                     $types .= "d"; // Doble
-                } else if (is_string($value)) {
+                } elseif (is_string($value)) {
                     $types .= "s"; // String
                 } else {
                     $types .= "b"; // Blob u otro tipo binario
                 }
-                $params[] = $value;
+                $params[] = &$value; // Guardar referencia
             }
 
-            // `bind_param` requiere parámetros por referencia
-            $stmt->bind_param($types, ...$params);
+            array_unshift($params, $types); // Agregar tipos al inicio del array
+            call_user_func_array([$stmt, 'bind_param'], $params);
         }
 
-        $stmt->execute(); //execute query
+        if (!$stmt->execute()) {
+            die("Error en execute(): " . $stmt->error);
+        }
+
         return $stmt;
     }
 

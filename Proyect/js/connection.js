@@ -26,12 +26,12 @@ function reload_more(obj, obj2 = false, new_tab = false, sustitute = false) {
     }
 
     var href = "index.php?" + urlParams.toString();
-    
+
     if (new_tab) {
         window.open(href);
     } else {
         location.href = href;
-    }
+}
 }
 
 function conect(page, myArray) {
@@ -49,6 +49,7 @@ function conect(page, myArray) {
         },
         success: function (data) {
             try {
+                console.log(data);
                 var obj = JSON.parse(data);
                 if (obj.errorCode) {
                     if (obj.errorCode == 1) {
