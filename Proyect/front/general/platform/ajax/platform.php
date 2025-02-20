@@ -43,7 +43,6 @@ class platform extends API {
     }
 
     private function act_plat($ids = "", $inverse = 0) {
-//        echo $inverse;
         $url = "https://api.igdb.com/v4/platforms";
         $body = "fields id, category, generation, name, slug, platform_family.name,versions.name, versions.platform_logo.image_id, versions.platform_version_release_dates.region, versions.platform_version_release_dates.date;";
         if ($ids) {
@@ -59,10 +58,8 @@ class platform extends API {
         }
         $body .= "limit 500;";
         $result = 0;
-//        echo $body;
-        $plats = $this->IGDB_API_con($url, $body);
 
-//        print_r($plats);
+        $plats = $this->IGDB_API_con($url, $body);
 
         if ($plats) {
             foreach ($plats as $key => $plat) {
@@ -119,6 +116,52 @@ class platform extends API {
         if (!$count) {
             $this->insert("platformfamily", array("IGDB_id" => $id, "name" => $name));
         }
+    }
+
+    public function best_games_of_plat() {
+        $id = $this->post_dat["id"];
+        $body = "fields id, name, cover.url, platforms, category, rating, rating_count;";
+        $no_ids = $this->post_dat["ids_loaded"];
+        $body .= "where platforms = " . $id . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = 0 & rating_count > 50;";
+        $body .= "sort rating_count desc;";
+        $body .= "limit 500;";
+        
+//        echo $body;
+
+        $url = "https://api.igdb.com/v4/games";
+
+        $games = $this->IGDB_API_con($url, $body);
+
+        $array_games = array();
+
+        foreach ($games as $key => $game) {
+            if (!isset($array_games[$game["rating"]])) {
+                $array_games[$game["rating"]] = $game;
+            } else {
+                $array_games[$game["rating"] . "1"] = $game;
+            }
+        }
+        krsort($array_games);
+
+        $firts_games = array();
+        $count = 0;
+        $html = "";
+        foreach ($array_games as $key => $game_) {
+            if ($count >= 12) {
+                break;
+            }
+            array_push($firts_games, $game);
+            $html .= '<div class="col-2 p-1 game_element" data-id="' . $game_["id"] . '">';
+            $html .= '<div class="border border-3 w-100 p-1">';
+            $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
+            $html .= '<div>' . $game_["name"] . '</div>';
+            $html .= "</div>";
+            $html .= "</div>";
+            $count++;
+        }
+        $this->result["html"] = $html;
+//        echo $html;
+//        print_r($firts_games);
     }
 
     /* End API */
