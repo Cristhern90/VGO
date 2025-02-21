@@ -15,7 +15,7 @@ class platform extends API {
         parent::__construct($post_dat);
     }
 
-    /* API */
+    /* AJAX call functions */
 
     public function download_new_plats() {
         $ids = $this->select("platform", "GROUP_CONCAT(IGDB_id ORDER BY IGDB_id ASC SEPARATOR ', ') ids")[0]["ids"];
@@ -41,6 +41,22 @@ class platform extends API {
             $this->result["errorCode"] = 3;
         }
     }
+
+    /* END AJAX call functions */
+
+    /* SQL querys */
+
+    private function if_not_exists_insert_platformFamily($id, $name) {
+        $count = $this->select("platformfamily", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
+        if (!$count) {
+            $this->insert("platformfamily", array("IGDB_id" => $id, "name" => $name));
+        }
+    }
+
+    /* END SQL querys */
+
+
+    /* API querys */
 
     private function act_plat($ids = "", $inverse = 0) {
         $url = "https://api.igdb.com/v4/platforms";
@@ -111,22 +127,13 @@ class platform extends API {
         }
     }
 
-    private function if_not_exists_insert_platformFamily($id, $name) {
-        $count = $this->select("platformfamily", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
-        if (!$count) {
-            $this->insert("platformfamily", array("IGDB_id" => $id, "name" => $name));
-        }
-    }
-
     public function best_games_of_plat() {
         $id = $this->post_dat["id"];
-        $body = "fields id, name, cover.url, platforms, category, rating, rating_count;";
+        $body = "fields id, name, cover.url, platforms, category, rating, rating_count, url;";
         $no_ids = $this->post_dat["ids_loaded"];
         $body .= "where platforms = " . $id . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = 0 & rating_count > 50;";
         $body .= "sort rating_count desc;";
         $body .= "limit 500;";
-        
-//        echo $body;
 
         $url = "https://api.igdb.com/v4/games";
 
@@ -155,6 +162,10 @@ class platform extends API {
             $html .= '<div class="border border-3 w-100 p-1">';
             $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
             $html .= '<div>' . $game_["name"] . '</div>';
+            $html .= '<div class="row m-0">';
+            $html .= '<button class="col-6" onclick="window.open(\'' . $game_["url"] . '\')">IGDB web</button>';
+            $html .= '<button class="col-6">Registrar</button>';
+            $html .= "</div>";
             $html .= "</div>";
             $html .= "</div>";
             $count++;
@@ -164,7 +175,7 @@ class platform extends API {
 //        print_r($firts_games);
     }
 
-    /* End API */
+    /* End API querys */
 }
 
 $obj = new platform($_POST);
