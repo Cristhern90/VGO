@@ -122,7 +122,7 @@ class platform extends API {
             return $result;
         } else {
             $this->result["alert"] = 1;
-            $this->result["response"] = "No hay plataformas pendeintes";
+            $this->result["response"] = "No hay nada pendiente";
             return 1;
         }
     }
@@ -131,7 +131,7 @@ class platform extends API {
         $id = $this->post_dat["id"];
         $no_ids = $this->post_dat["ids_loaded"];
         
-        $html = $this->best_games_of("platforms", $id, $no_ids);
+        $html = $this->best_games_of("platforms", $id, $no_ids, 1);
         $this->result["html"] = $html;
     }
 

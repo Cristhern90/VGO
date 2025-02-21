@@ -57,11 +57,17 @@ class API extends AJAX {
 
     /* Get games by propertie */
 
-    protected function best_games_of($filter, $values, $no_ids) {
-        $body = "fields id, name, cover.url, platforms, category, rating, rating_count, url;";
-        $body .= "where " . $filter . " = " . $values . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = 0 & rating_count > 50;";
-        $body .= "sort rating_count desc;";
+    protected function best_games_of($filter, $values, $no_ids, $exclusive = 0) {
+        $body = "fields id, name, cover.url, platforms, category, aggregated_rating, aggregated_rating_count, url;";
+        $val = $values;
+        if($exclusive == 0){
+            $val = "[".$values."]";
+        }
+        $body .= "where " . $filter . " = " . $val . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = (0,9) & aggregated_rating_count > 1;";
+        $body .= "sort aggregated_rating_count desc;";
         $body .= "limit 500;";
+        
+//        echo $body;
 
         $url = "https://api.igdb.com/v4/games";
 
@@ -70,10 +76,10 @@ class API extends AJAX {
         $array_games = array();
 
         foreach ($games as $key => $game) {
-            if (!isset($array_games[$game["rating"]])) {
-                $array_games[$game["rating"]] = $game;
-            } else {
-                $array_games[$game["rating"] . "1"] = $game;
+//            $rat = number_format($game["aggregated_rating"],4,".");
+            $rat = number_format($game["aggregated_rating"], 4);
+            if (!isset($array_games[$rat . $game["id"]])) {
+                $array_games[$rat . $game["id"]] = $game;
             }
         }
         krsort($array_games);
@@ -93,7 +99,7 @@ class API extends AJAX {
             $html .= '<button class="col-12 col-lg-6">Registrar</button>';
             $html .= "</div>";
             $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
-            $html .= '<div>' . $game_["name"] . '</div>';
+            $html .= '<div>' . $game_["name"] . " (".$game_["aggregated_rating"].") (".$game_["aggregated_rating_count"].")". '</div>';
             $html .= "</div>";
             $html .= "</div>";
             $count++;

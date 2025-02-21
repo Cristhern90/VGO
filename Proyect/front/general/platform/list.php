@@ -19,7 +19,7 @@ $plats = $VGO->select("platform p", "p.*, pf.name family, IFNULL(p.PlatformFamil
 
     function act_plats() {
         let myArray = new FormData();
-        myArray.append("function", "act_all_plats");
+        myArray.append("function", "download_new_plats");
         conect(page, myArray);
     }
 </script>
