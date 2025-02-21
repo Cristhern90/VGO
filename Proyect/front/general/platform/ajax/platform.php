@@ -129,50 +129,10 @@ class platform extends API {
 
     public function best_games_of_plat() {
         $id = $this->post_dat["id"];
-        $body = "fields id, name, cover.url, platforms, category, rating, rating_count, url;";
         $no_ids = $this->post_dat["ids_loaded"];
-        $body .= "where platforms = " . $id . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = 0 & rating_count > 50;";
-        $body .= "sort rating_count desc;";
-        $body .= "limit 500;";
-
-        $url = "https://api.igdb.com/v4/games";
-
-        $games = $this->IGDB_API_con($url, $body);
-
-        $array_games = array();
-
-        foreach ($games as $key => $game) {
-            if (!isset($array_games[$game["rating"]])) {
-                $array_games[$game["rating"]] = $game;
-            } else {
-                $array_games[$game["rating"] . "1"] = $game;
-            }
-        }
-        krsort($array_games);
-
-        $firts_games = array();
-        $count = 0;
-        $html = "";
-        foreach ($array_games as $key => $game_) {
-            if ($count >= 12) {
-                break;
-            }
-            array_push($firts_games, $game);
-            $html .= '<div class="col-2 p-1 game_element" data-id="' . $game_["id"] . '">';
-            $html .= '<div class="border border-3 w-100 p-1">';
-            $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
-            $html .= '<div>' . $game_["name"] . '</div>';
-            $html .= '<div class="row m-0">';
-            $html .= '<button class="col-6" onclick="window.open(\'' . $game_["url"] . '\')">IGDB web</button>';
-            $html .= '<button class="col-6">Registrar</button>';
-            $html .= "</div>";
-            $html .= "</div>";
-            $html .= "</div>";
-            $count++;
-        }
+        
+        $html = $this->best_games_of("platforms", $id, $no_ids);
         $this->result["html"] = $html;
-//        echo $html;
-//        print_r($firts_games);
     }
 
     /* End API querys */

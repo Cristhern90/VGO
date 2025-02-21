@@ -19,7 +19,7 @@ class API extends AJAX {
     #[\Override]
     public function __construct($post_dat) {
         parent::__construct($post_dat);
-        $this->read_API_Json($this->url_json_bbdd."API.json");//read JSON of API
+        $this->read_API_Json($this->url_json_bbdd . "API.json"); //read JSON of API
     }
 
     protected function read_API_Json($fileName) {
@@ -36,7 +36,7 @@ class API extends AJAX {
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,CURLOPT_ENCODING => '',CURLOPT_MAXREDIRS => 10,CURLOPT_TIMEOUT => 0,CURLOPT_FOLLOWLOCATION => true,CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_RETURNTRANSFER => true, CURLOPT_ENCODING => '', CURLOPT_MAXREDIRS => 10, CURLOPT_TIMEOUT => 0, CURLOPT_FOLLOWLOCATION => true, CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_HTTPHEADER => array(
@@ -54,4 +54,61 @@ class API extends AJAX {
 
         return json_decode($response, true);
     }
+
+    /* Get games by propertie */
+
+    protected function best_games_of($filter, $values, $no_ids) {
+        $body = "fields id, name, cover.url, platforms, category, rating, rating_count, url;";
+        $body .= "where " . $filter . " = " . $values . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = 0 & rating_count > 50;";
+        $body .= "sort rating_count desc;";
+        $body .= "limit 500;";
+
+        $url = "https://api.igdb.com/v4/games";
+
+        $games = $this->IGDB_API_con($url, $body);
+
+        $array_games = array();
+
+        foreach ($games as $key => $game) {
+            if (!isset($array_games[$game["rating"]])) {
+                $array_games[$game["rating"]] = $game;
+            } else {
+                $array_games[$game["rating"] . "1"] = $game;
+            }
+        }
+        krsort($array_games);
+
+        $firts_games = array();
+        $count = 0;
+        $html = "";
+        foreach ($array_games as $key => $game_) {
+            if ($count >= 12) {
+                break;
+            }
+            array_push($firts_games, $game);
+            $html .= '<div class="col-4 col-md-3 col-xl-2 p-1 game_element" data-id="' . $game_["id"] . '">';
+            $html .= '<div class="border border-3 w-100 p-1">';
+            $html .= '<div class="row m-0 mb-1">';
+            $html .= '<button class="col-12 col-lg-6" onclick="window.open(\'' . $game_["url"] . '\')">IGDB web</button>';
+            $html .= '<button class="col-12 col-lg-6">Registrar</button>';
+            $html .= "</div>";
+            $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
+            $html .= '<div>' . $game_["name"] . '</div>';
+            $html .= "</div>";
+            $html .= "</div>";
+            $count++;
+        }
+        return $html;
+    }
+
+    /* End Get games by propertie */
+
+    /* Regist game */
+
+    public function save_game($id) {
+        $body = "fields *;";
+        $body .= "where id = ".$id.";";
+    }
+
+    /* End Regist game */
 }
