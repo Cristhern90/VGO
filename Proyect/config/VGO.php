@@ -119,7 +119,7 @@ class VGO {
         $count_w = 0;
         foreach ($where as $key => $val) {
             if ($count_w) {
-                $query .= " AND ";
+                $sentence .= " AND ";
             }
             $operator = "=";
             $sentence .= $key . " " . $operator . " ?";

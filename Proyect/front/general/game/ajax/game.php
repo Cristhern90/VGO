@@ -21,16 +21,33 @@ class game extends API {
         $count = $this->select("collection", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
         if (!$count) {
             $this->insert("collection", array("IGDB_id" => $id, "name" => $name));
-            $this->insert("collectiongame", array("Game_IGDB_id" => $game_id, "Collection_IGDB_id" => $id));
         }
+        $this->delete("collectiongame", array("Game_IGDB_id" => $game_id, "Collection_IGDB_id" => $id));
+        $this->insert("collectiongame", array("Game_IGDB_id" => $game_id, "Collection_IGDB_id" => $id));
     }
 
     private function if_not_exists_insert_engine($id, $name, $game_id) {
         $count = $this->select("engine", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
         if (!$count) {
             $this->insert("engine", array("IGDB_id" => $id, "name" => $name));
-            $this->insert("enginegame", array("Game_IGDB_id" => $game_id, "Collection_IGDB_id" => $id));
         }
+        $this->delete("enginegame", array("Game_IGDB_id" => $game_id, "Engine_IGDB_id" => $id));
+        $this->insert("enginegame", array("Game_IGDB_id" => $game_id, "Engine_IGDB_id" => $id));
+    }
+
+    private function if_not_exists_insert_genre($id, $name, $game_id) {
+        $count = $this->select("genre", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
+        if (!$count) {
+            $this->insert("genre", array("IGDB_id" => $id, "name" => $name));
+        }
+        $this->delete("genregame", array("Game_IGDB_id" => $game_id, "Genre_IGDB_id" => $id));
+        $this->insert("genregame", array("Game_IGDB_id" => $game_id, "Genre_IGDB_id" => $id));
+    }
+
+    private function insert_platform($id, $game_id, $release_date, $region) {
+        $date = date('Y-m-d', $release_date);
+        $this->delete("platformgame", array("Game_IGDB_id" => $game_id, "Platform_IGDB_id" => $id, "releasedDate" => $date, "region" => $region));
+        $this->insert("platformgame", array("Game_IGDB_id" => $game_id, "Platform_IGDB_id" => $id, "releasedDate" => $date, "region" => $region));
     }
 
     /* END SQL querys */
@@ -39,23 +56,44 @@ class game extends API {
 
     public function regist_game() {
         $id = $this->post_dat["id"];
-        $body = "fields id, name, category, game_engines.name, cover.url, url, release_dates.date, release_dates.platform, release_dates.release_region, genres, collections.name, game_type;";
+        $body = "fields id, name, category, first_release_date, game_engines.name, game_type.id, cover.image_id, slug, release_dates.date, release_dates.platform.name, release_dates.release_region, genres.name, collections.name, game_type;";
         $body .= "where id = " . $id . ";";
 
         $url = "https://api.igdb.com/v4/games";
-        $game = $this->IGDB_API_con($url, $body);
-        
+        $game = $this->IGDB_API_con($url, $body)[0];
+
+//        print_r($game);
+
         $values = array(
-            "IGDB_id" => $game["id"],
             "title" => $game["name"],
             "cover" => $game["cover"]["image_id"],
             "isSpinOff" => 0,
-            "IGDB_url" => $game["url"],
+            "IGDB_url" => $game["slug"],
             "GameType_IGDB_id" => $game["game_type"]["id"],
+            "first_release_date" => date('Y-m-d', $game["first_release_date"]),
         );
-//        print_r($game);
-        $this->insert("game", $values);
-        if_not_exists_insert_collection($game["collections"]["id"], $game["collections"]["name"], $game["id"]);
+//        print_r($values);
+        if ($this->post_dat["new"]) {
+            $values["IGDB_id"] = $game["id"];
+            $this->insert("game", $values);
+        } else {
+            $this->update("game", $values, array("IGDB_id" => $game["id"]));
+        }
+        foreach ($game["collections"] as $key => $collection) {
+            $this->if_not_exists_insert_collection($collection["id"], $collection["name"], $game["id"]);
+        }
+        foreach ($game["game_engines"] as $key => $engine) {
+            $this->if_not_exists_insert_engine($engine["id"], $engine["name"], $game["id"]);
+        }
+        foreach ($game["genres"] as $key => $genre) {
+            $this->if_not_exists_insert_genre($genre["id"], $genre["name"], $game["id"]);
+        }
+        foreach ($game["release_dates"] as $key => $release_dates) {
+//            print_r($release_dates);
+            $this->insert_platform($release_dates["platform"]["id"], $game["id"], $release_dates["date"], $release_dates["release_region"]);
+        }
+
+        $this->result["newLocation"] = "index.php?page=game&id=" . $id;
     }
 
     /* End API */
