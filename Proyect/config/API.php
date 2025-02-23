@@ -96,7 +96,7 @@ class API extends AJAX {
             $html .= '<div class="border border-3 w-100 p-1">';
             $html .= '<div class="row m-0 mb-1">';
             $html .= '<button class="col-12 col-lg-6" onclick="window.open(\'' . $game_["url"] . '\')">IGDB web</button>';
-            $html .= '<button class="col-12 col-lg-6">Registrar</button>';
+            $html .= '<button class="col-12 col-lg-6" onclick="regist_game(\''.$game_["id"].'\')">Registrar</button>';
             $html .= "</div>";
             $html .= '<img src="' . str_replace("t_thumb", "t_cover_med", $game_["cover"]["url"]) . '" class="w-100">';
             $html .= '<div>' . $game_["name"] . " (".$game_["aggregated_rating"].") (".$game_["aggregated_rating_count"].")". '</div>';

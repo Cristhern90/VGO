@@ -94,3 +94,11 @@ function conect(page, myArray) {
     });
     return str;
 }
+
+function regist_game(id) {
+    let page = "front/general/game/ajax/game.php";
+    let myArray = new FormData();
+    myArray.append("function", "regist_game");
+    myArray.append("id", id);
+    res = conect(page, myArray);
+}
