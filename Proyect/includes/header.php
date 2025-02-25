@@ -9,7 +9,7 @@
         <div><a href="?page=game">Juegos</a></div>
         <div><a href="?page=platform">Plataformas</a></div>
         <div><a href="?page=genre">Generos</a></div>
-        <div>Series</div>
+        <div><a href="?page=collection">Series</a></div>
         <div>Tiendas</div>
         <?php if ($user_id) { ?>
             <div>Perfil</div>
