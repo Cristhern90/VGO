@@ -131,7 +131,7 @@ class platform extends API {
         $id = $this->post_dat["id"];
         $no_ids = $this->post_dat["ids_loaded"];
         
-        $html = $this->best_games_of("platforms", $id, $no_ids, 1);
+        $html = $this->best_games_of("platforms", $id, $no_ids, 0);
         $this->result["html"] = $html;
     }
 

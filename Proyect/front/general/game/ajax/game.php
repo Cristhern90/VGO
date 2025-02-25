@@ -82,8 +82,10 @@ class game extends API {
         foreach ($game["collections"] as $key => $collection) {
             $this->if_not_exists_insert_collection($collection["id"], $collection["name"], $game["id"]);
         }
-        foreach ($game["game_engines"] as $key => $engine) {
-            $this->if_not_exists_insert_engine($engine["id"], $engine["name"], $game["id"]);
+        if (isset($game["game_engines"])) {
+            foreach ($game["game_engines"] as $key => $engine) {
+                $this->if_not_exists_insert_engine($engine["id"], $engine["name"], $game["id"]);
+            }
         }
         foreach ($game["genres"] as $key => $genre) {
             $this->if_not_exists_insert_genre($genre["id"], $genre["name"], $game["id"]);
