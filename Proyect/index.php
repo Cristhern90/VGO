@@ -15,7 +15,6 @@ if (isset($_COOKIE["user_id"])) {
         $page = $_GET["page"]; // get page
     }
 } else {
-
     if (isset($_GET["page"])) {
         $page = $_GET["page"]; // get page
     }
@@ -29,7 +28,7 @@ if (isset($_COOKIE["user_id"])) {
         <?php
         include './includes/header.php';
 //        echo '<hr>' . $page;
-        include './front/' .$prepage . "/" . $page . '/index.php';
+        include './front/' .$prepage . "/index.php";
         include './includes/footer.php';
         ?>
     </body>
