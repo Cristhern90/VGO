@@ -14,7 +14,7 @@ $elements = $VGO->select($page." p", "p.*", "", array(), false, "p.name");
     <?php } ?>
 </div>
 <script>
-    const page = "front/<?= $prepage ?>/ajax/<?= $page ?>.php";
+    const page = "front/<?= $prepage ?>/ajax/general.php";
 
     function act_gens() {
         let myArray = new FormData();
