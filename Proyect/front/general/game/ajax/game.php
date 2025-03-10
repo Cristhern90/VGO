@@ -26,6 +26,15 @@ class game extends API {
         $this->insert("collectiongame", array("Game_IGDB_id" => $game_id, "Collection_IGDB_id" => $id));
     }
 
+    private function if_not_exists_insert_franchise($id, $name, $game_id) {
+        $count = $this->select("franchise", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
+        if (!$count) {
+            $this->insert("franchise", array("IGDB_id" => $id, "name" => $name));
+        }
+        $this->delete("franchisegame", array("Game_IGDB_id" => $game_id, "Franchise_IGDB_id" => $id));
+        $this->insert("franchisegame", array("Game_IGDB_id" => $game_id, "Franchise_IGDB_id" => $id));
+    }
+
     private function if_not_exists_insert_engine($id, $name, $game_id) {
         $count = $this->select("engine", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
         if (!$count) {
@@ -56,7 +65,9 @@ class game extends API {
 
     public function regist_game() {
         $id = $this->post_dat["id"];
-        $body = "fields id, name, category, first_release_date, game_engines.name, game_type.id, cover.image_id, slug, release_dates.date, release_dates.platform.name, release_dates.release_region, genres.name, collections.name, game_type;";
+        $body = "fields id, name, category, first_release_date, game_engines.name, game_type.id, cover.image_id, slug, release_dates.date, release_dates.platform.name, release_dates.release_region, ";
+        $body .= "franchises.name,";
+        $body .= "genres.name, collections.name, game_type;";
         $body .= "where id = " . $id . ";";
 
         $url = "https://api.igdb.com/v4/games";
@@ -81,6 +92,9 @@ class game extends API {
         }
         foreach ($game["collections"] as $key => $collection) {
             $this->if_not_exists_insert_collection($collection["id"], $collection["name"], $game["id"]);
+        }
+        foreach ($game["franchises"] as $key => $franchise) {
+            $this->if_not_exists_insert_franchise($franchise["id"], $franchise["name"], $game["id"]);
         }
         if (isset($game["game_engines"])) {
             foreach ($game["game_engines"] as $key => $engine) {

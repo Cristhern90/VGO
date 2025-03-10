@@ -2,6 +2,7 @@
 $game = $VGO->select("game g", "g.*", false, array("IGDB_id" => $id))[0];
 
 $collections = $VGO->select("collectiongame cg", "cg.*, c.name", "INNER JOIN collection c ON c.IGDB_id = cg.Collection_IGDB_id", array("Game_IGDB_id" => $id));
+$franchises = $VGO->select("franchisegame fg", "fg.*, f.name", "INNER JOIN franchise f ON f.IGDB_id = fg.Franchise_IGDB_id", array("Game_IGDB_id" => $id));
 $genres = $VGO->select("genregame gg", "gg.*, g.name", "INNER JOIN genre g ON g.IGDB_id = gg.Genre_IGDB_id", array("Game_IGDB_id" => $id));
 ?>
 <div class="row">
@@ -10,7 +11,13 @@ $genres = $VGO->select("genregame gg", "gg.*, g.name", "INNER JOIN genre g ON g.
         <h2>Datos:</h2>
         <ul>
             <li>Fecha de estreno: <?= $game["first_release_date"] ?></li>
-            <li>Franquicia: </li>
+            <li>Franquicias: 
+                <ul>
+                    <?php foreach ($franchises as $key => $franchise) { ?>
+                        <li><?= $franchise["name"] ?></li>
+                    <?php } ?>
+                </ul>
+            </li>
             <li>Series:
                 <ul>
                     <?php foreach ($collections as $key => $collection) { ?>
