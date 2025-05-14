@@ -33,7 +33,7 @@ $reg_games = $VGO->select($page . "game pg", "g.IGDB_id, g.title, g.cover", "INN
         myArray.append("function", "best_games");
         myArray.append("id", <?= $_GET["id"] ?>);
         myArray.append("type", "<?= $general_array[$page][0] ?>");
-        myArray.append("excusive", 0);
+        myArray.append("excusive", <?= $general_array[$page][3] ?>);
         let ids_loaded = "";
         let count = 0;
         $(".game_element").each(function (index, value) {

@@ -63,7 +63,11 @@ class API extends AJAX {
         if($exclusive == 0){
             $val = "[".$values."]";
         }
-        $body .= "where " . $filter . " = " . $val . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = (0,9) & aggregated_rating_count > 1;";
+        $body .= "where " . $filter . " = " . $val . ($no_ids ? " & id != (" . $no_ids . ")" : "") . " & category = (0,8,9) & aggregated_rating_count > 0";
+        if($filter == "involved_companies.company"){
+            $body .= " & involved_companies.developer = true";
+        }
+        $body .= ";";
         $body .= "sort aggregated_rating_count desc;";
         $body .= "limit 500;";
         
@@ -72,6 +76,8 @@ class API extends AJAX {
         $url = "https://api.igdb.com/v4/games";
 
         $games = $this->IGDB_API_con($url, $body);
+        
+//        print_r($games);
 
         $array_games = array();
 

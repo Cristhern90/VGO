@@ -53,6 +53,15 @@ class game extends API {
         $this->insert("genregame", array("Game_IGDB_id" => $game_id, "Genre_IGDB_id" => $id));
     }
 
+    private function if_not_exists_insert_developer($id, $name, $game_id,$developer,$publisher) {
+        $count = $this->select("developer", "count(*) cant", false, array("IGDB_id" => $id))[0]["cant"];
+        if (!$count) {
+            $this->insert("developer", array("IGDB_id" => $id, "name" => $name));
+        }
+        $this->delete("developergame", array("Game_IGDB_id" => $game_id, "Developer_IGDB_id" => $id));
+        $this->insert("developergame", array("Game_IGDB_id" => $game_id, "Developer_IGDB_id" => $id,"developer"=>$developer,"publisher"=>$publisher));
+    }
+
     private function insert_platform($id, $game_id, $release_date, $region) {
         $date = date('Y-m-d', $release_date);
         $this->delete("platformgame", array("Game_IGDB_id" => $game_id, "Platform_IGDB_id" => $id, "releasedDate" => $date, "region" => $region));
@@ -65,15 +74,16 @@ class game extends API {
 
     public function regist_game() {
         $id = $this->post_dat["id"];
-        $body = "fields id, name, category, first_release_date, game_engines.name, game_type.id, cover.image_id, slug, release_dates.date, release_dates.platform.name, release_dates.release_region, ";
-        $body .= "franchises.name,";
-        $body .= "genres.name, collections.name, game_type;";
+        $body = "fields id, name, category, first_release_date, game_engines.name, game_type.id, cover.image_id, slug, release_dates.date, release_dates.platform.name, release_dates.release_region";
+        $body .= ",franchises.name";
+        $body .= ",genres.name, collections.name, game_type,involved_companies.developer, involved_companies.publisher, involved_companies.company.name";
+        $body .= ";";
         $body .= "where id = " . $id . ";";
 
         $url = "https://api.igdb.com/v4/games";
         $game = $this->IGDB_API_con($url, $body)[0];
 
-//        print_r($game);
+//        print_r($game["involved_companies"]);
 
         $values = array(
             "title" => $game["name"],
@@ -103,6 +113,14 @@ class game extends API {
         }
         foreach ($game["genres"] as $key => $genre) {
             $this->if_not_exists_insert_genre($genre["id"], $genre["name"], $game["id"]);
+        }
+        foreach ($game["involved_companies"] as $key => $company) {
+            if ($company["developer"]) {
+                $this->if_not_exists_insert_developer($company["company"]["id"], $company["company"]["name"], $game["id"],1,0);
+            }
+            if ($company["publisher"]) {
+//                $this->if_not_exists_insert_developer($company["company"]["id"], $company["company"]["name"], $game["id"],0,1);
+            }
         }
         foreach ($game["release_dates"] as $key => $release_dates) {
 //            print_r($release_dates);

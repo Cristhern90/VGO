@@ -1,6 +1,6 @@
 <?php
 $games = $VGO->select("game g", "g.IGDB_id, g.cover, g.title, g.GameType_IGDB_id", false, array());
-print_r($games);
+//print_r($games);
 ?>
 <h2>Juegos</h2>
 <div class="row text-center">

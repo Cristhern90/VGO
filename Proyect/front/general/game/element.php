@@ -4,6 +4,7 @@ $game = $VGO->select("game g", "g.*", false, array("IGDB_id" => $id))[0];
 $collections = $VGO->select("collectiongame cg", "cg.*, c.name", "INNER JOIN collection c ON c.IGDB_id = cg.Collection_IGDB_id", array("Game_IGDB_id" => $id));
 $franchises = $VGO->select("franchisegame fg", "fg.*, f.name", "INNER JOIN franchise f ON f.IGDB_id = fg.Franchise_IGDB_id", array("Game_IGDB_id" => $id));
 $genres = $VGO->select("genregame gg", "gg.*, g.name", "INNER JOIN genre g ON g.IGDB_id = gg.Genre_IGDB_id", array("Game_IGDB_id" => $id));
+$developers = $VGO->select("developergame dg", "dg.*, d.name", "INNER JOIN developer d ON d.IGDB_id = dg.Developer_IGDB_id", array("Game_IGDB_id" => $id,"developer"=>1));
 ?>
 <div class="row">
     <div class="col-9">
@@ -21,14 +22,21 @@ $genres = $VGO->select("genregame gg", "gg.*, g.name", "INNER JOIN genre g ON g.
             <li>Series:
                 <ul>
                     <?php foreach ($collections as $key => $collection) { ?>
-                        <li><?= $collection["name"] ?></li>
+                        <li><a href="?page=collection&id=<?= $collection["Collection_IGDB_id"] ?>"><?= $collection["name"] ?></a></li>
                     <?php } ?>
                 </ul>
             </li>
             <li>Generos:
                 <ul>
                     <?php foreach ($genres as $key => $genre) { ?>
-                        <li><?= $genre["name"] ?></li>
+                        <li><a href="?page=genre&id=<?= $genre["Genre_IGDB_id"] ?>"><?= $genre["name"] ?></a></li>
+                    <?php } ?>
+                </ul>
+            </li>
+            <li>Desarrolladores:
+                <ul>
+                    <?php foreach ($developers as $key => $developer) { ?>
+                    <li><a href="?page=developer&id=<?= $developer["Developer_IGDB_id"] ?>"><?= $developer["name"] ?></a></li>
                     <?php } ?>
                 </ul>
             </li>
