@@ -106,7 +106,9 @@ class game extends API {
         }
         foreach ($game["release_dates"] as $key => $release_dates) {
 //            print_r($release_dates);
-            $this->insert_platform($release_dates["platform"]["id"], $game["id"], $release_dates["date"], $release_dates["release_region"]);
+            if (isset($release_dates["date"])) {
+                $this->insert_platform($release_dates["platform"]["id"], $game["id"], $release_dates["date"], $release_dates["release_region"]);
+            }
         }
 
         $this->result["newLocation"] = "index.php?page=game&id=" . $id;

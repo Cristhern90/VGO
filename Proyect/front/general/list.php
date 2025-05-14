@@ -2,7 +2,7 @@
 
 $elements = $VGO->select($page." p", "p.*", "", array(), false, "p.name");
 ?>
-<h1>Generos</h1>
+<h1><?= $general_array[$page][1]?></h1>
 <span><button class="btn-secondary" title="Descargar generos" onclick="act_gens()"><i class="fa fa-reload"></i>a</button></span>
 <div class="row">
     <?php foreach ($elements as $key => $element) { ?>

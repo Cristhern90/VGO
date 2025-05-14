@@ -14,7 +14,7 @@ $genres = $VGO->select("genregame gg", "gg.*, g.name", "INNER JOIN genre g ON g.
             <li>Franquicias: 
                 <ul>
                     <?php foreach ($franchises as $key => $franchise) { ?>
-                        <li><?= $franchise["name"] ?></li>
+                    <li><a href="?page=franchise&id=<?= $franchise["Franchise_IGDB_id"] ?>"><?= $franchise["name"] ?></a></li>
                     <?php } ?>
                 </ul>
             </li>

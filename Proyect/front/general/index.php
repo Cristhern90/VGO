@@ -1,6 +1,7 @@
 <?php
 
-$general_array = array("collection"=>"collections", "genre"=>"genres");
+$general_array = array("collection"=>array("collections","Series","Serie"), "genre"=>array("genres","Generos","Genero"), "franchise"=>array("franchises","Franquicias","Franquicia"));
+
 
 $general_list = array_keys($general_array);
 

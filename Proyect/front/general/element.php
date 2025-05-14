@@ -2,7 +2,7 @@
 $element = $VGO->select($page . " p", "*", false, array("p.IGDB_id" => $_GET["id"]))[0];
 $reg_games = $VGO->select($page . "game pg", "g.IGDB_id, g.title, g.cover", "INNER JOIN game g ON g.IGDB_id = pg.Game_IGDB_id", array("pg." . ucfirst($page) . "_IGDB_id" => $_GET["id"]), "g.IGDB_id, g.title, g.cover,g.first_release_date", "g.first_release_date ASC");
 ?>
-<h1><?= $element["name"] ?></h1>
+<h1><?=$general_array[$page][2]?>: <?= $element["name"] ?></h1>
 <hr>
 <div class="">
     <h2>Juegos registrados:</h2>
@@ -32,7 +32,7 @@ $reg_games = $VGO->select($page . "game pg", "g.IGDB_id, g.title, g.cover", "INN
         let myArray = new FormData();
         myArray.append("function", "best_games");
         myArray.append("id", <?= $_GET["id"] ?>);
-        myArray.append("type", "<?= $general_array[$page] ?>");
+        myArray.append("type", "<?= $general_array[$page][0] ?>");
         myArray.append("excusive", 0);
         let ids_loaded = "";
         let count = 0;
